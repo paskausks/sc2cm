@@ -7,6 +7,14 @@ from django.utils import timezone
 from django_countries.fields import CountryField
 
 
+class ClanMemberManager(models.Manager):
+    """
+    This manager returns ClanMember objects whose is_member property is set to True
+    """
+    def get_queryset(self):
+        return super(ClanMemberManager, self).get_queryset().filter(is_member=True)
+
+
 class ClanMember(models.Model):
     """Model for clan member"""
 
@@ -89,6 +97,9 @@ class ClanMember(models.Model):
     is_staff = models.BooleanField('is staff', default=False, help_text=_(
       'Used for informative purposes only.'
     ))
+
+    objects = models.Manager()
+    clanmembers = ClanMemberManager()
 
     @property
     def is_unranked(self):

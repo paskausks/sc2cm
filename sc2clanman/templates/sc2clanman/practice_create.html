@@ -1,0 +1,18 @@
+{% extends 'sc2clanman/base.html' %}
+{% load i18n %}
+
+{% block bodyclass %}practice-create{% endblock bodyclass %}
+
+{% block content %}
+    <div class="practice-create-container">
+        <div class="members-list">
+            {% for member in members %}
+            <div class="member" data-clanmember-id="{{ member.id }}">
+                <span>{{ member.name }}</span>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="practice-create-container">
+        </div>
+    </div>
+{% endblock %}

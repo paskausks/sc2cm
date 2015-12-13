@@ -53,7 +53,7 @@ class MemberView(ListView):
     template_name = 'sc2clanman/members.html'
 
     # No ordering since it's done by the front-end
-    queryset = models.ClanMember.objects.filter(is_member=True)
+    queryset = models.ClanMember.clanmembers.all()
 
     def get_context_data(self, **kwargs):
         ctx = super(MemberView, self).get_context_data(**kwargs)
@@ -115,11 +115,16 @@ class PracticeListView(ListView):
     template_name = 'sc2clanman/practice.html'
     queryset = models.PracticeEvent.objects.all().order_by('-date')
 
+    def get_context_data(self, **kwargs):
+        ctx = super(PracticeListView, self).get_context_data(**kwargs)
+        ctx['can_create_practice_events'] = self.request.user.has_perm('practiceevent.can_create')
+        return ctx
+
 
 class PracticeEditView(mixins.PermissionRequiredMixin, AuthenticatedView):
     """
-    A view for creating and editing practice events.
-    Only users which have permissions to create practice events can access this view (ex. staff)
+    A view for editing practice events.
+    Only users which have permissions to edit practice events can access this view (ex. staff)
     """
     template_name = 'sc2clanman/practice_detail.html'
     permission_required = 'practiceevent.can_change'
@@ -129,3 +134,18 @@ class PracticeEditView(mixins.PermissionRequiredMixin, AuthenticatedView):
         ctx = self.get_context_data()
         ctx['event'] = get_object_or_404(models.PracticeEvent, id=practice_id)
         return render(request, self.template_name, ctx)
+
+
+class PracticeCreateView(mixins.PermissionRequiredMixin, AuthenticatedView):
+    """
+    A view for creating practice events.
+    Only users which have permissions to create practice events can access this view (ex. staff)
+    """
+
+    template_name = 'sc2clanman/practice_create.html'
+    permission_required = 'practiceevent.can_create'
+
+    def get_context_data(self, **kwargs):
+        ctx = super(PracticeCreateView, self).get_context_data(**kwargs)
+        ctx['members'] = models.ClanMember.clanmembers.all()
+        return ctx
