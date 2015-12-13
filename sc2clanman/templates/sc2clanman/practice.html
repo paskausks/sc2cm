@@ -3,18 +3,16 @@
 
 {% block content %}
     <div class="container">
-        {% if user.is_authenticated %}
-        {% if user.is_superuser or user.is_staff %}
+        {% if can_create_practice_events %}
         <div class="row">
             <div class="col-xs-12">
-                <a class="btn btn-primary pull-right" href="#">{% trans 'New practice event' %}</a>
+                <a class="btn btn-primary pull-right" href="{% url 'practice_create' %}">{% trans 'New practice event' %}</a>
             </div>
         </div>
         {% endif %}
-        {% endif %}
         <div class="row">
             <div class="col-xs-12">
-                <table class="table table-hover">
+                <table class="table table-hover table-padded">
                     <thead>
                         <tr>
                             <th>{% trans 'Date' %}</th>
@@ -25,7 +23,7 @@
                     {% for event in object_list %}
                         <tr>
                             <td><a href="{% url 'practice_edit' event.id %}">{{ event.date|date:"SHORT_DATETIME_FORMAT" }}</a></td>
-                            <td>{{ event.bleached_notes|linebreaks }}</td>
+                            <td>{{ event.bleached_notes|safe|linebreaks }}</td>
                         </tr>
                     {% empty %}
                         <tr>
