@@ -180,6 +180,9 @@ class PracticeEvent(models.Model):
         verbose_name = 'practice event'
         verbose_name_plural = 'practice events'
 
+    def __str__(self):
+        return self.date.strftime('%d.%M.%Y %H:%m')
+
 
 class PracticeAttendant(models.Model):
     MU_TVT = 'TT'
