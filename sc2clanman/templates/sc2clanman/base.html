@@ -36,12 +36,12 @@ Base template.
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                  <a class="navbar-brand" href="#">{% trans 'Clan Management' %}</a>
+                  <a class="navbar-brand" href="/">{% trans 'Clan Management' %}</a>
                 </div>
                 <div class="collapse navbar-collapse" id="admin-navbar">
                     <ul class="nav navbar-nav">
                         <li class="{% active request.path '^/$' %}"><a href="/">{% trans 'Members' %}</a></li>
-                        <li class="{% active request.path '^/practice/$' %}"><a href="{% url 'practice-list' %}">{% trans 'Practice' %}</a></li>
+                        <li class="{% active request.path '^/practice/' %}"><a href="{% url 'practice_list' %}">{% trans 'Practice' %}</a></li>
                     </ul>
                     <p class="navbar-text navbar-right">Hi, {{ user.username }}! Go to <a href="{% url opts|admin_urlname:'changelist' %}">admin</a></p>
                 </div>
