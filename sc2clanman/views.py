@@ -13,13 +13,15 @@ class BaseView(TemplateView):
     A TemplateView subclass which adds the Opts object to context.
     """
 
+    current_model = 'clanmember'
+
     def get_context_data(self, **kwargs):
         ctx = super(BaseView, self).get_context_data(**kwargs)
 
         # Get links so we can display links to admin.
         class Opts(object):
             app_label = 'sc2clanman'
-            model_name = 'clanmember'
+            model_name = self.current_model
 
         ctx['opts'] = Opts()
 
@@ -92,8 +94,10 @@ class MemberView(ListView):
         return ctx
 
 
-class PracticeListView(BaseView):
+class PracticeListView(ListView):
     """
     View for displaying a list of practice events
     """
+    current_model = 'practiceevent'
     template_name = 'sc2clanman/practice.html'
+    queryset = models.PracticeEvent.objects.all().order_by('-date')
