@@ -3367,7 +3367,7 @@ return $.tablesorter;
                 if (wins === undefined) {
                     console.info(wins, losses);
                 }
-                return 100 / (wins + losses) * wins // Return winrate
+                return 100 / (wins + losses) * wins; // Return winrate
             },
             parsed: true,
             type: 'numeric'

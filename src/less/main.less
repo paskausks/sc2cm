@@ -94,6 +94,10 @@
 @font-family-base:  ~"'clear_sansregular', @{font-family-sans-serif}";
 @brand-primary:     #00B6FF;
 
+@navbar-inverse-bg:         @brand-primary;
+@navbar-inverse-color:      #f8f8f8;
+@navbar-inverse-link-color: @navbar-inverse-color;
+
 @tooltip-color:               #f8f8f8;
 @tooltip-bg:                  @brand-primary;
 
@@ -101,5 +105,6 @@
 @static-path: '../';
 
 // Import our own styles
+@import "base.less";
 @import "members.less";
 @import "misc.less";
