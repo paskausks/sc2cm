@@ -1,13 +1,17 @@
 {% extends 'sc2clanman/base.html' %}
-{% load staticfiles i18n %}
+{% load i18n %}
 
 {% block content %}
     <div class="container">
+        {% if user.is_authenticated %}
+        {% if user.is_superuser or user.is_staff %}
         <div class="row">
             <div class="col-xs-12">
                 <a class="btn btn-primary pull-right" href="#">{% trans 'New practice event' %}</a>
             </div>
         </div>
+        {% endif %}
+        {% endif %}
         <div class="row">
             <div class="col-xs-12">
                 <table class="table table-hover">
@@ -20,7 +24,7 @@
                     <tbody>
                     {% for event in object_list %}
                         <tr>
-                            <td><a href="#">{{ event.date|date:"SHORT_DATETIME_FORMAT" }}</a></td>
+                            <td><a href="{% url 'practice_edit' event.id %}">{{ event.date|date:"SHORT_DATETIME_FORMAT" }}</a></td>
                             <td>{{ event.bleached_notes|linebreaks }}</td>
                         </tr>
                     {% empty %}
