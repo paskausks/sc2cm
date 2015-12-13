@@ -1,0 +1,9 @@
+{% extends 'sc2clanman/base.html' %}
+{% load i18n %}
+
+{% block content %}
+    <div class="container">
+        <p>{{ event.date|date:"SHORT_DATE_FORMAT" }}</p>
+        <p>{{ event.bleached_notes|safe|linebreaks }}</p>
+    </div>
+{% endblock %}

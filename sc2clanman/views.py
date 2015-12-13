@@ -1,11 +1,14 @@
 #!/bin/env python3
 
 from collections import Counter
+from django.contrib.auth.decorators import login_required, permission_required
 from django.db import models as dm
+from django.shortcuts import get_object_or_404, render
 from django.views.generic.list import BaseListView
 from django.views.generic import TemplateView
+from django.utils.decorators import method_decorator
 
-from . import models, apps, sc2
+from . import models, apps, sc2, mixins
 
 
 class BaseView(TemplateView):
@@ -26,6 +29,16 @@ class BaseView(TemplateView):
         ctx['opts'] = Opts()
 
         return ctx
+
+
+class AuthenticatedView(BaseView):
+    """
+    BaseView subclass with the login required decorator applied.
+    """
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(AuthenticatedView, self).dispatch(*args, **kwargs)
 
 
 class ListView(BaseListView, BaseView):
@@ -101,3 +114,18 @@ class PracticeListView(ListView):
     current_model = 'practiceevent'
     template_name = 'sc2clanman/practice.html'
     queryset = models.PracticeEvent.objects.all().order_by('-date')
+
+
+class PracticeEditView(mixins.PermissionRequiredMixin, AuthenticatedView):
+    """
+    A view for creating and editing practice events.
+    Only users which have permissions to create practice events can access this view (ex. staff)
+    """
+    template_name = 'sc2clanman/practice_detail.html'
+    permission_required = 'practiceevent.can_change'
+
+    # noinspection PyMethodOverriding
+    def get(self, request, practice_id, **kwargs):
+        ctx = self.get_context_data()
+        ctx['event'] = get_object_or_404(models.PracticeEvent, id=practice_id)
+        return render(request, self.template_name, ctx)
