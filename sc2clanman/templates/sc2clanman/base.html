@@ -26,9 +26,9 @@ Base template.
     <body class="{% block bodyclass %}{% endblock bodyclass %}">
         {% if user.is_authenticated %}
         {% if user.is_superuser or user.is_staff %}
-        <nav class="navbar navbar-inverse">
+        <nav class="navbar navbar-inverse" id="admin-navbar">
             <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
+                <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#admin-navbar" aria-expanded="false">
                         <span class="sr-only">{% trans 'Toggle navigation' %}</span>
