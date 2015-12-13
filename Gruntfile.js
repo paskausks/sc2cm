@@ -10,7 +10,11 @@ module.exports = function(grunt) {
             // Common options
             options: {
                 // Specify dirs for @import directives
-                paths: ['static-src/less', 'node_modules/bootstrap/less'],
+                paths: [
+                    'static-src/less',
+                    'node_modules/bootstrap/less',
+                    'node_modules/font-awesome/less'
+                ],
                 strictUnits: true
             },
             dev: {

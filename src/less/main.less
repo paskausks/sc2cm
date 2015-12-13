@@ -81,11 +81,11 @@
 // Apply font
 @font-face {
     font-family: 'clear_sansregular';
-    src: url('../font/ClearSans-Regular-webfont.eot');
-    src: url('../font/ClearSans-Regular-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../font/ClearSans-Regular-webfont.woff') format('woff'),
-         url('../font/ClearSans-Regular-webfont.ttf') format('truetype'),
-         url('../font/ClearSans-Regular-webfont.svg#clear_sansregular') format('svg');
+    src: url('@{static-path}font/ClearSans-Regular-webfont.eot');
+    src: url('@{static-path}font/ClearSans-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('@{static-path}font/ClearSans-Regular-webfont.woff') format('woff'),
+         url('@{static-path}font/ClearSans-Regular-webfont.ttf') format('truetype'),
+         url('@{static-path}font/ClearSans-Regular-webfont.svg#clear_sansregular') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -97,6 +97,10 @@
 @navbar-inverse-bg:         @brand-primary;
 @navbar-inverse-color:      #f8f8f8;
 @navbar-inverse-link-color: @navbar-inverse-color;
+
+// Add Font Awesome
+@import "font-awesome.less";
+@fa-font-path:   "@{static-path}font";
 
 @tooltip-color:               #f8f8f8;
 @tooltip-bg:                  @brand-primary;

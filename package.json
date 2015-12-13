@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "bootstrap": "^3.3.6",
+    "font-awesome": "^4.5.0",
     "tablesorter": "^2.24.6"
   }
 }
