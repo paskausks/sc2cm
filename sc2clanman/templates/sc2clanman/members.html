@@ -1,0 +1,184 @@
+{% extends 'sc2clanman/base.html' %}
+{% load i18n staticfiles admin_urls sc2cm countries %}
+{% comment %}
+
+template for members list.
+
+{% endcomment %}
+
+{% block bodyclass %}member-list{% endblock bodyclass %}
+
+{% block content %}
+<div class="container-fluid">
+    {% if user.is_authenticated %}
+    {% if user.is_superuser or user.is_staff %}
+    <div class="row admin-row">
+        <div class="col-xs-12">
+            <p class="welcome-message">Hi, {{ user.username }}! Go to <a href="{% url opts|admin_urlname:'changelist' %}">admin</a></p>
+        </div>
+    </div>
+    {% endif %}
+    {% endif %}
+    <div class="quick-stats">
+        <div class="row">
+            <div class="col-sm-3">
+                <h4>{% trans 'Last successful syncs' %}</h4>
+                <p class="small">{% trans 'Member list' %}: {{ last_member_update|timesince }} {% trans 'ago' %}</p>
+                <p class="small">{% trans 'Member statistics' %}: {{ last_detail_update|timesince }} {% trans 'ago' %}</p>
+                <br><br>
+                <p class="small text-muted">v{{ version }}, <a href="mailto:pundurs@glhf.lv">{% trans 'report a bug!' %}</a></p>
+            </div>
+            <div class="col-sm-3 season-stats">
+                <h4>{% trans 'Season stats' %}</h4>
+                <p class="small">
+                    {% trans 'Breakdown by race' %}:
+                    {% for race in race_breakdown%}
+                    <span class="stats-item"><img src="{{ race.0.icon }}" title="{{ race.0 }}"> ({{ race.1 }})</span>
+                    {% endfor %}
+                </p>
+                <p class="small">
+                    {% trans 'Breakdown by league' %}:
+                    {% for league in league_breakdown%}
+                    <span class="stats-item"><img src="{{ league.0.icon }}" title="{{ league.0 }}"> ({{ league.1 }})</span>
+                    {% endfor %}
+                </p>
+            </div>
+            <div class="col-sm-3">
+                <h4>&nbsp;</h4>
+                <p class="small">
+                    {% trans 'Breakdown by country' %}:
+                    {% for c in country_breakdown %}
+                     {% get_country c.0 as country %}
+                    <span class="stats-item"><img src="{{ country.flag }}" alt="{{ country.name }}" title="{{ country.name }}"> ({{ c.1 }})</span>
+                    {% endfor %}
+                </p>
+            </div>
+            <div class="col-sm-3">
+                <h4>&nbsp;</h4>
+                <p class="small">{% trans 'Games total this season' %}: {{ total_games_played }}</p>
+                <p class="small">{% trans 'Most games played' %}: {{ most_games_played.name }} ({{ most_games_played.games_played}})</p>
+                <p class="small">{% trans 'Least games played' %}: {{ least_games_played.name }} ({{ least_games_played.games_played}})</p>
+                <p class="small">{% trans 'Least passionate' %}: {{ least_passionate.name }} ({% trans 'played' %} {{ least_passionate.last_game|timesince }} {% trans 'ago' %})</p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <table class="table table-hover" id="members-table">
+                <thead>
+                    <tr>
+                        <th>&nbsp; {# Table row number #}</th>
+                        <th>{% trans 'Rank' %}</th>
+                        <th>&nbsp; {# Country #}</th>
+                        <th>{% trans 'Name' %}</th>
+                        <th>&nbsp; {# Skype #}</th>
+                        <th>&nbsp; {# Twitch #}</th>
+                        <th>{% trans 'Division' %}</th>
+                        <th>{% trans 'Last game' %}</th>
+                        <th>{% trans 'W / L' %}</th>
+                        <th>{% trans 'Points' %}</th>
+                        <th>{% trans 'Joined' %}</th>
+                        <th>{% trans 'Practice attendance' %}</th>
+                        <th>{% trans 'Strikes' %}</th>
+                        <th>&nbsp; {# Notes #}</th>
+                        {% if user.is_authenticated %}
+                        {% if user.is_superuser or user.is_staff %}
+                        <th>&nbsp; {# Admin actions #}</th>
+                        {% endif %}
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                {% for member in object_list %}
+                    <tr {% if not member.is_unranked %}data-toggle="tooltip" data-placement="top" data-games-total="{{ member.total_games }}" data-winrate="{{ member.winrate }}"{% endif %}>
+                        <td class="row-number">{{ forloop.counter }}</td>
+                        <td class="rank{% if member.rank < 9 %} top8{% endif %}" data-rank="{{ member.rank }}" data-league="{{ member.league }}">
+                            {% if member.is_unranked %}
+                            <img title="Unknown" src="{% static 'ico/race-unknown.png' %}" alt="Unknown">
+                            {% elif member.league == 'BRONZE' %}
+                            <img title="Bronze" src="{% static 'ico/league-bronze.png' %}" alt="Bronze">
+                            {% elif member.league == 'SILVER' %}
+                            <img title="Silver" src="{% static 'ico/league-silver.png' %}" alt="Silver">
+                            {% elif member.league == 'GOLD' %}
+                            <img title="Gold" src="{% static 'ico/league-gold.png' %}" alt="Gold">
+                            {% elif member.league == 'PLATINUM' %}
+                            <img title="Platinum" src="{% static 'ico/league-platinum.png' %}" alt="Platinum">
+                            {% elif member.league == 'DIAMOND' %}
+                            <img title="Diamond" src="{% static 'ico/league-diamond.png' %}" alt="Diamond">
+                            {% elif member.league == 'MASTER' %}
+                            <img title="Master" src="{% static 'ico/league-master.png' %}" alt="Master">
+                            {% elif member.league == 'GRANDMASTER' %}
+                            <img title="Grandmaster" src="{% static 'ico/league-grandmaster.png' %}" alt="Grandmaster">
+                            {% endif %}
+                            {% if not member.is_unranked %}{{ member.rank }}{% endif %}
+                        </td>
+                        <td data-country="{{ member.country }}">
+                            {% if member.country %}<img src="{{ member.country.flag }}" alt="{{ member.country }}" title="{{ member.country.name }}">{% endif %}
+                        </td>
+                        <td data-playername="{{ member.name }}">
+                            {% if member.is_unranked %}
+                            <img title="Unknown" src="{% static 'ico/race-unknown.png' %}" alt="Unknown">
+                            {% elif member.race == 'TERRAN' %}
+                            <img title="Terran" src="{% static 'ico/race-terran.png' %}" alt="Terran">
+                            {% elif member.race == 'PROTOSS' %}
+                            <img title="Protoss" src="{% static 'ico/race-protoss.png' %}" alt="Protoss">
+                            {% elif member.race == 'ZERG' %}
+                            <img title="Zerg" src="{% static 'ico/race-zerg.png' %}" alt="Zerg">
+                            {% elif member.race == 'RANDOM' %}
+                            <img title="Random" src="{% static 'ico/race-random.png' %}" alt="Random">
+                            {% endif %}
+                            <a href="{{ member.bnet_profile_url }}" target="_blank">{{ member.name }}</a>
+                            {% if member.is_staff %}<img class="clan-staff" src="{% static 'ico/staff.png' %}" alt="{% trans 'Clan staff' %}" title="{% trans 'Clan staff' %}"> {% endif %}
+                            {% if member.bnet_id == 3568824 %}<img class="clan-staff" src="{% static 'ico/author.png' %}" alt="{% trans 'Site author' %}" title="{% trans 'Site author' %}"> {% endif %}
+                        </td>
+                        <td>
+                            {% if member.skype_id %}
+                            <a data-toggle="tooltip" data-placement="top" data-skype="{{ member.skype_id }}">
+                                <img src="{% static 'ico/skype.png' %}" alt="Skype">
+                                <img class="skype-avatar hidden loader" src="{% static 'ico/skype.png' %}" alt="Skype {# To prevent purifyCSS from deleting these classes#}">
+                            </a>
+                            {% endif %}
+                        </td>
+                        <td data-twitch="{{ member.twitch_username }}">{% if member.twitch_username %}
+                            <a href="{{ member.twitch_url }}" target="_blank" title="{{ member.twitch_username }}">
+                                <img src="{% static 'ico/twitch.png' %}" alt="Twitch">
+                            </a>{% endif %}
+                        </td>
+                        {% if member.is_unranked %}
+                            <td colspan="4" class="text-center"><i>{% trans 'Player is unranked' %}</i></td>
+                        {% else %}
+                            <td><a href="{{ member.bnet_ladder_url }}" target="_blank">{{ member.ladder_name }}</a></td>
+                            <td class="{% if member.days_since_last_game > 29 %}no-passion{% elif member.days_since_last_game > 13 %}minimal-passion{% elif member.days_since_last_game > 6 %}reduced-passion{% endif %} last-game">
+                                {{ member.last_game|date:"SHORT_DATE_FORMAT" }}
+                            </td>
+                            <td class="game-count{% if member.is_winrate_positive %} positive{% endif %}" data-wins="{{ member.wins }}" data-losses="{{ member.losses }}">
+                                {{ member.wins }} / {{ member.losses }}
+                            </td>
+                            <td>{{ member.score }}</td>
+                        {% endif %}
+                        <td>{{ member.join_date|date:"SHORT_DATE_FORMAT" }}</td>
+                        <td class="practice-attendance{% if member.practice_register == 'E' %} explained{% elif member.practice_register == 'N' %} no{% endif %}">
+                            {{ member.get_practice_register_display }}
+                        </td>
+                        <td>{% show_strikes member %}</td>
+                        <td>
+                            {% if member.notes %}<a class="notes" data-toggle="popover" data-placement="left" data-title="{% trans 'Notes' %}" data-content="{{ member.bleached_notes|linebreaks }}"><img src="{% static 'ico/note.png' %}" alt="Notes"></a>{% endif %}
+                        </td>
+                        {% if user.is_authenticated %}
+                        {% if user.is_superuser or user.is_staff %}
+                        <td class="admin-view"><a href="{{ member.get_admin_url }}" target="_blank" title="{% trans 'View on admin' %}"><img src="{% static 'ico/edit.png' %}" alt="View on admin"></a></td>
+                        {% endif %}
+                        {% endif %}
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="12">{% trans 'No members to show' %}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                </table>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock content %}

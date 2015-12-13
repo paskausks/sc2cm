@@ -1,0 +1,5 @@
+<div class="strike-list {% if strikes|length > 2%}maximum{% elif strikes|length > 1 %}medium{% endif %}">
+    {% for strike in strikes %}
+    <span class="strike-item"></span>
+    {% endfor %}
+</div>

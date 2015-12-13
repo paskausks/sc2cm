@@ -1,0 +1,158 @@
+@charset "utf-8";
+
+@color-negative: @brand-danger;
+@color-neutral: @brand-warning;
+@color-positive: @brand-success;
+
+@row-number-col-text: #C2C2C2;
+
+@strike-ball-dimen: 10px;
+
+.admin-row {
+    background-color: @brand-primary;
+    color: @body-bg;
+    box-shadow: 2px 2px 9px #808080;
+    & a {
+        color: @body-bg;
+        text-decoration: underline;
+        &:hover,
+        &:focus,
+        &:active {
+            color: lighten(@body-bg, 5%);
+        }
+    }
+    & .welcome-message {
+        display: block;
+        margin-top: 10px;
+        text-align: right;
+    }
+}
+
+.quick-stats{
+    margin-top: @line-height-computed * 2;
+}
+
+.season-stats {
+    @media screen and (min-width: @screen-sm-min) {
+        border-left: 1px solid #dbdbdb;
+    }
+}
+
+.stats-item {
+        margin-left: 7px;
+        margin-top: 3px;
+        display: inline-block;
+    }
+
+#members-table {
+    margin-top: @line-height-computed * 2;
+
+    & th.tablesorter-header:not(.sorter-false) {
+        background-image: url('@{static-path}ico/tablesorter-bg.gif');
+        cursor: pointer;
+        background-repeat: no-repeat;
+        background-position: center left;
+        padding-left: 20px;
+        &.tablesorter-headerDesc {
+            background-image: url('@{static-path}ico/tablesorter-desc.gif');
+        }
+        &.tablesorter-headerAsc {
+            background-image: url('@{static-path}ico/tablesorter-asc.gif');
+        }
+    }
+    .row-number {
+        text-align: center;
+        color: @row-number-col-text;
+    }
+    & tr:hover {
+        .row-number {
+            color: darken(@row-number-col-text, 20%);
+        }
+    }
+    .last-game {
+        &.reduced-passion {
+            color: @color-neutral;
+        }
+        &.minimal-passion {
+            color: @color-negative;
+        }
+        &.no-passion {
+            color: red;
+        }
+    }
+    .game-count {
+        color: @color-negative;
+        &.positive {
+            color: @color-positive;
+        }
+    }
+    .rank.top8 {
+        color: @color-positive;
+        font-weight: bold;
+    }
+    .practice-attendance {
+        &.explained {
+            color: @color-neutral;
+        }
+        &.no {
+            color: @color-negative;
+        }
+    }
+    tbody tr:hover{
+        .admin-view {
+            visibility: visible;
+        }
+    }
+    .admin-view {
+        visibility: hidden;
+    }
+    .notes,
+    [data-skype]{
+        cursor: pointer;
+        &:hover,
+        &:focus,
+        &:active {
+            outline: 0;
+        }
+    }
+
+    // Opaque icons
+    .clan-staff,
+    .admin-view img,
+    .notes img {
+        opacity: .4;
+        &:hover {
+            opacity: .7;
+        }
+    }
+
+    .skype-avatar {
+        @skype-avatar-dimen: 96px;
+        width: @skype-avatar-dimen;
+        height: @skype-avatar-dimen;
+        margin-top: 3px;
+        display: block;
+    }
+
+    .strike-list {
+        .strike-item {
+            display: inline-block;
+            width: @strike-ball-dimen;
+            height: @strike-ball-dimen;
+            border-radius: 50%;
+            background-color: @text-color;
+        }
+        &.medium .strike-item {
+            background-color: @color-neutral;
+        }
+        &.maximum .strike-item {
+            background-color: @color-negative;
+        }
+    }
+}
+
+.loader {
+    background-image: url('@{static-path}ico/loading.gif');
+    background-repeat: no-repeat;
+    background-position: center;
+}

@@ -1,0 +1,112 @@
+@charset "utf-8";
+
+/*
+ * Django admin panel overrides
+ * <c> 2015, Pundurs
+ */
+
+@text-color: #000000;
+@header-text-color: #F7F7F7;
+@primary-color: #00B6FF;
+@alt-table-row-bg: #eee;
+
+// Apply font
+@font-face {
+    font-family: 'clear_sansregular';
+    src: url('../../font/ClearSans-Regular-webfont.eot');
+    src: url('../../font/ClearSans-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../../font/ClearSans-Regular-webfont.woff') format('woff'),
+         url('../../font/ClearSans-Regular-webfont.ttf') format('truetype'),
+         url('../../font/ClearSans-Regular-webfont.svg#clear_sansregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {font-family: "clear_sansregular","Helvetica Neue",Helvetica,Arial,sans-serif !important;}
+
+body {
+    color: @text-color;
+}
+a, a:link, a:visited {
+    color: @text-color;
+}
+a:hover {
+    color: @primary-color;
+}
+#container > #header {
+    background-color: @primary-color;
+}
+#container > #header,
+#container > #header > #branding > h1 {
+    color: @header-text-color;
+}
+.module > table > caption,
+.module h2, .inline-group h2 {
+    background-image: none;
+    background-color: @primary-color;
+}
+tr.row1 {
+    background-color: @alt-table-row-bg;
+}
+button.button,
+input.default[type="submit"],
+.submit-row input.default,
+.submit-row input,
+input[type="submit"],
+input[type="button"] {
+    display: inline-block;
+    margin-bottom: 0px;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid darken(@primary-color, 5%);
+    white-space: nowrap;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857;
+    border-radius: 0px;
+    -moz-user-select: none;
+    color: #F8F8F8;
+    background-color: @primary-color;
+
+    &:hover, .calendar td.today a {
+        color: #F8F8F8;
+        background-color: lighten(@primary-color, 10%);
+        border-color: lighten(@primary-color, 15%);
+    }
+}
+.object-tools a.addlink,
+.object-tools a:link, .object-tools a:visited {
+    background-image: none;
+    border-radius: 3px;
+    padding: 3px 12px;
+}
+.object-tools a.addlink:hover,
+.object-tools a:link:hover, .object-tools a:visited:hover {
+    background-color: @primary-color;
+    background-image: none;
+}
+.object-tools > li,
+.object-tools > li:hover {
+    background-image: none;
+}
+.calendarbox > div >.calendarnav-previous, .calendarbox > div > .calendarnav-next,
+.calendar > table > caption,
+.calendar td.today a  {
+    background-image: none;
+    background-color: @primary-color;
+}
+.calendarbox > div >.calendarnav-previous:hover, .calendarbox > div > .calendarnav-next:hover {
+    color: #ededed;
+}
+.calendar td a:hover, .timelist a:hover {
+    background-color: #9C9C9C;
+}
+
+.clearfix:after {
+  content:"";
+  display:table;
+  clear:both;
+}

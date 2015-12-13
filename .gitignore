@@ -48,6 +48,8 @@ coverage.xml
 *.pot
 
 # Django stuff:
+migrations
+db.sqlite3
 *.log
 
 # Sphinx documentation
@@ -55,3 +57,9 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# NodeJS / NPM
+node_modules
+
+# PyCharm
+.idea

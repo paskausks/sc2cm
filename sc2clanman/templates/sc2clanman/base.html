@@ -1,0 +1,46 @@
+{% load i18n staticfiles %}
+{% comment %}
+
+Base template.
+
+{% endcomment %}
+<!DOCTYPE html>
+{% get_current_language as ACTIVELANGUAGE %}
+<html lang="{{ ACTIVELANGUAGE }}">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Clan management</title>
+
+        {% if debug %}
+        <link href="{% static 'css/main.dev.css' %}" rel="stylesheet">
+        {% else %}
+        <link href="{% static 'css/main.min.css' %}?v={{ version }}" rel="stylesheet">
+        {% endif %}
+        <!--[if lt IE 9]>
+             <script src="//cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script>
+             <script src="//cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body class="{% block bodyclass %}{% endblock bodyclass %}">
+    {% block content %}{% endblock content %}
+    {% comment %}
+            If we are running on a modern browser, we load jQuery 2, which is faster.
+            We use a conditional comment trick to load jQuery 2 anyway, even if the user isn't using IE at all
+        {% endcomment %}
+        <!--[if lt IE 9]>
+            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <![endif]-->
+        <!--[if gte IE 9]><!-->
+            <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <!--<![endif]-->
+        {% if debug %}
+        {# grunt-contrib-watch livereload #}
+            <script src="//localhost:35729/livereload.js"></script>
+            <script src="{% static 'js/main.dev.js' %}"></script>
+        {% else %}
+            <script src="{% static 'js/main.min.js' %}?v={{ version }}"></script>
+        {% endif %}
+    </body>
+</html>
