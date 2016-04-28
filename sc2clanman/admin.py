@@ -8,5 +8,3 @@ from . import models
 # Register your models here.
 admin.site.register(models.ClanMember, clanmember.ClanMemberAdmin)
 admin.site.register(models.SyncLog, synclog.SyncLogAdmin)
-admin.site.register(models.PracticeEvent)
-admin.site.register(models.PracticeAttendant)
