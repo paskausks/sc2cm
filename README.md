@@ -4,7 +4,6 @@ A Django application for convienently managing a Starcraft 2 clan.
 ## Requirements
 * Python 3.5+
 * Django 1.8+
-* NodeJS/NPM
 
 ## Installation
 Installation instructions are for computers running on GNU/Linux.
@@ -14,7 +13,6 @@ Clone the repository and put the `sc2clanman` folder somewhere in your `PYTHONPA
 Install dependencies:
 ```bash
 $ pip install -r requirements.txt
-$ npm install .
 ```
 
 In your Django project's settings.py:
