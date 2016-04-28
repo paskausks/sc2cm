@@ -2836,21 +2836,18 @@ tbody.collapse.in {
   }
   .navbar-fixed-top .navbar-collapse,
   .navbar-static-top .navbar-collapse,
-  .navbar-fixed-bottom .navbar-collapse,
-  body.practice-create #admin-navbar .navbar-collapse {
+  .navbar-fixed-bottom .navbar-collapse {
     padding-left: 0;
     padding-right: 0;
   }
 }
 .navbar-fixed-top .navbar-collapse,
-.navbar-fixed-bottom .navbar-collapse,
-body.practice-create #admin-navbar .navbar-collapse {
+.navbar-fixed-bottom .navbar-collapse {
   max-height: 340px;
 }
 @media (max-device-width: 480px) and (orientation: landscape) {
   .navbar-fixed-top .navbar-collapse,
-  .navbar-fixed-bottom .navbar-collapse,
-  body.practice-create #admin-navbar .navbar-collapse {
+  .navbar-fixed-bottom .navbar-collapse {
     max-height: 200px;
   }
 }
@@ -2880,8 +2877,7 @@ body.practice-create #admin-navbar .navbar-collapse {
   }
 }
 .navbar-fixed-top,
-.navbar-fixed-bottom,
-body.practice-create #admin-navbar {
+.navbar-fixed-bottom {
   position: fixed;
   right: 0;
   left: 0;
@@ -2889,13 +2885,11 @@ body.practice-create #admin-navbar {
 }
 @media (min-width: 768px) {
   .navbar-fixed-top,
-  .navbar-fixed-bottom,
-  body.practice-create #admin-navbar {
+  .navbar-fixed-bottom {
     border-radius: 0;
   }
 }
-.navbar-fixed-top,
-body.practice-create #admin-navbar {
+.navbar-fixed-top {
   top: 0;
   border-width: 0 0 1px;
 }
@@ -3624,9 +3618,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 .navbar-header:before,
 .navbar-header:after,
 .navbar-collapse:before,
-.navbar-collapse:after,
-body.practice-create .practice-create-container:before,
-body.practice-create .practice-create-container:after {
+.navbar-collapse:after {
   content: " ";
   display: table;
 }
@@ -3639,8 +3631,7 @@ body.practice-create .practice-create-container:after {
 .nav:after,
 .navbar:after,
 .navbar-header:after,
-.navbar-collapse:after,
-body.practice-create .practice-create-container:after {
+.navbar-collapse:after {
   clear: both;
 }
 .center-block {
@@ -6385,35 +6376,6 @@ body {
   background-image: url('../ico/loading.gif');
   background-repeat: no-repeat;
   background-position: center;
-}
-body.practice-create .practice-create-container {
-  margin-right: auto;
-  margin-left: auto;
-  padding-left: 0;
-  padding-right: 0;
-}
-body.practice-create .members-list,
-body.practice-create .practice-create-form-container {
-  padding-top: 50px;
-}
-body.practice-create .members-list {
-  position: fixed;
-  top: 0;
-  float: left;
-  height: 100%;
-  max-height: 100%;
-  overflow-y: scroll;
-}
-body.practice-create .members-list > .member {
-  background-color: #f6f6f6;
-  padding: 15px;
-}
-body.practice-create .members-list > .member:hover {
-  background-color: #e9e9e9;
-}
-body.practice-create .practice-create-form-container {
-  float: left;
-  width: 75%;
 }
 .tooltip .tooltip-inner a {
   color: #f8f8f8;
