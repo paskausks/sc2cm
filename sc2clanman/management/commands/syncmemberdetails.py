@@ -11,10 +11,13 @@ import sys
 class Command(BaseCommand):
     """ Goes over all of the members in the database and updates all of their details """
     help = 'Updates clan member details in database with data from battle.net'
+    can_import_settings = True
     log = SyncLog(action=SyncLog.CLAN_MEMBER_DETAIL_SYNC)
     time_started = None
 
     def handle(self, *args, **options):
+
+        from django.conf import settings
 
         clan_members = ClanMember.objects.filter(is_member=True)
         self.time_started = datetime.datetime.now()
@@ -43,6 +46,14 @@ class Command(BaseCommand):
             member.losses = m.losses
             member.score = m.points
             member.rank = m.rank
+            try:
+                # Check if person is actually a member of the clan
+                if m.tag != settings.SC2_CLANMANAGER_CLAN_TAG:
+                    self.stdout.write(_('%s no longer a member. Marking as such!' % member.name))
+                    member.is_member = False
+            except AttributeError:
+                self.stderr.write(_('SC2_CLANMANAGER_CLAN_TAG is undefined in settings. Exiting!'))
+                sys.exit(1)
             member.save()
 
             self.stdout.write(_('%s successfully updated!' % member.name))

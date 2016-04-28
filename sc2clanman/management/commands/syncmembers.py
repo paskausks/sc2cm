@@ -26,11 +26,11 @@ NO_BNET_ID = 0
 
 
 class Command(BaseCommand):
-    """ Sync players with the specified clan tag from nios.kr to the database
+    """ Sync players with the specified clan tag from rankedftw to the database
     Existing members are names are updated while removed members' is_member property gets set to false to not break
     database integrity"""
-    help = 'Syncs clan members from nios.kr with the database'
-    _nios_response = None
+    help = 'Syncs clan members from rankedftw.com with the database'
+    _rankedftw_response = None
     clan_members = []
     time_started = None
     log = SyncLog(action=SyncLog.CLAN_MEMBER_SYNC)
@@ -68,19 +68,19 @@ class Command(BaseCommand):
 
         return m
 
-    def _parse_nios_response(self):
+    def _parse_rankedftw_response(self):
         """ Takes nios.kr response and parses it to python objects
         :return: List of dictionaries of clan members
         """
 
         clan_member_table = None
 
-        if self._nios_response is None:
+        if self._rankedftw_response is None:
             return
 
         # HTML5Lib parses HTML text into a xml.etree.ElementTree instance
         dom = html5lib.parse(
-            self._nios_response.text,
+            self._rankedftw_response.text,
             treebuilder='dom'
         )
 
@@ -105,7 +105,7 @@ class Command(BaseCommand):
         for member in members:
             self.clan_members.append(self._parse_member_detais(member))
 
-        self.stdout.write('Finished processing HTML from nios.kr, beginning to sync with the database.')
+        self.stdout.write('Finished processing HTML from rankedftw.com, beginning to sync with the database.')
 
         if settings.DEBUG:
             self.stdout.write(
@@ -117,15 +117,15 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.time_started = datetime.datetime.now()
         try:
-            nios_url = ('http://nios.kr/sc2/eu/clan/detail/%s' % settings.SC2_CLANMANAGER_CLAN_TAG)
+            rankedftw_url = ('http://www.rankedftw.com/clan/%s/ladder-rank/' % settings.SC2_CLANMANAGER_CLAN_TAG)
         except AttributeError:
             self.stderr.write(_('SC2_CLANMANAGER_CLAN_TAG is undefined in settings. Exiting!'))
             sys.exit(1)
 
-        self.stdout.write(_('Fetching clan members from nios.kr.'))
+        self.stdout.write(_('Fetching clan members from rankedftw.com.'))
 
         try:
-            self._nios_response = requests.get(nios_url, timeout=10)
+            self._rankedftw_response = requests.get(rankedftw_url, timeout=10)
         except requests.exceptions.Timeout:
             self.stderr.write(_('Request timed out. Exiting!'))
             self.log.notes = 'Request timed out'
@@ -137,9 +137,9 @@ class Command(BaseCommand):
             self.log.save()
             sys.exit(1)
 
-        if self._nios_response.status_code != 200:
-            self.stderr.write(_('Invalid response from nios.kr. Exiting!'))
-            self.log.notes = 'Response from nios wasn\'t successful'
+        if self._rankedftw_response.status_code != 200:
+            self.stderr.write(_('Invalid response from rankedftw. Exiting!'))
+            self.log.notes = 'Response from rankedftw wasn\'t successful'
             self.log.save()
             sys.exit(1)
 
@@ -151,7 +151,7 @@ class Command(BaseCommand):
             )
 
         self.stdout.write(_('Clans received successfully! Scraping members!'))
-        self._parse_nios_response()
+        self._parse_rankedftw_response()
 
         if not self.clan_members:
             self.stdout.write(_('No members to process. Exiting!!'))
@@ -216,18 +216,6 @@ class Command(BaseCommand):
                     score=new_member.points,
                     rank=new_member.rank,
                 ).save()
-
-        for member in ClanMember.objects.filter(is_member=True):
-            # Mark members not in the clan as non-members
-            tmp = [m for m in self.clan_members if member.name == m['name']]
-            protected = member.membership_status_locked or\
-                (timezone.now().date() - member.join_date).days < ClanMember.STATUS_PROTECTION_DAYS
-            if len(tmp) == 0 and not protected:
-                self.stdout.write((_('%s is not a member anymore!' % member.name)))
-                member.is_member = False
-                member.save()
-                continue
-            self.stdout.write(_('%s is still a member.' % member.name))
 
         self.stdout.write(
             _('Process finished successfully in %f seconds!' % (

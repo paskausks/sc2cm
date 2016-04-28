@@ -55,6 +55,7 @@ class SC2Player(object):
         self.losses = 0
         self.points = models.ClanMember.SCORE_UNRANKED
         self.rank = 100
+        self.tag = settings.SC2_CLANMANAGER_CLAN_TAG  # Presume still a member
 
         try:
             api_key = settings.SC2_CLANMANAGER_BNET_API_KEY
@@ -154,6 +155,7 @@ class SC2Player(object):
         for i, player in enumerate(ladder):
             if player['character']['displayName'] == self.name:
                 self.points = int(player['points'])
+                self.tag = player['character']['clanTag']  # So we can routinely check, if the player is still a member.
                 # In rare cases, the ladder object doesn't contain a race. In that case we presume RANDOM
                 try:
                     self.race = player['favoriteRaceP1']
