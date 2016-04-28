@@ -48,7 +48,7 @@ class Command(BaseCommand):
             member.rank = m.rank
             try:
                 # Check if person is actually a member of the clan
-                if m.tag != settings.SC2_CLANMANAGER_CLAN_TAG:
+                if m.tag != settings.SC2_CLANMANAGER_CLAN_TAG and not member.membership_status_locked :
                     self.stdout.write(_('%s no longer a member. Marking as such!' % member.name))
                     member.is_member = False
             except AttributeError:
