@@ -13,10 +13,10 @@ from django.utils.translation import ugettext as _
 from ...models import SyncLog, ClanMember
 from ... import sc2player
 
-CLAN_MEMBER_TABLE_ID = 'ladderData'
+CLAN_MEMBER_TABLE_CLASS = 'team-size-1'
 
-# The name is located at the tird column of a row
-NAME_COL = 2
+# The name is located at the fourth column of a row
+NAME_COL = 3
 
 # Use this regular expression to get the battle.net ID from the link wrapping the clan members's name.
 BNET_ID_REGEX = re.compile('http://eu\.battle\.net/sc2/en/profile/(\d+)/(\d+)/\w+/')
@@ -69,7 +69,7 @@ class Command(BaseCommand):
         return m
 
     def _parse_rankedftw_response(self):
-        """ Takes nios.kr response and parses it to python objects
+        """ Takes rankedftw.com response and parses it to python objects
         :return: List of dictionaries of clan members
         """
 
@@ -92,7 +92,7 @@ class Command(BaseCommand):
 
         # Look for the table containing clan members
         for table in tables:
-            if table.getAttribute('id') == CLAN_MEMBER_TABLE_ID:
+            if table.getAttribute('class') == CLAN_MEMBER_TABLE_CLASS:
                 clan_member_table = table
                 break
 
