@@ -62,20 +62,20 @@ template for members list.
                         <th>{% trans 'Rank' %}</th>
                         <th>&nbsp; {# Country #}</th>
                         <th>{% trans 'Name' %}</th>
+                        {% if is_authorized %}
                         <th>&nbsp; {# Skype #}</th>
+                        {% endif %}
                         <th>&nbsp; {# Twitch #}</th>
                         <th>{% trans 'Division' %}</th>
                         <th>{% trans 'Last game' %}</th>
                         <th>{% trans 'W / L' %}</th>
                         <th>{% trans 'Points' %}</th>
                         <th>{% trans 'Joined' %}</th>
+                        {% if is_authorized %}
                         <th>{% trans 'Practice attendance' %}</th>
                         <th>{% trans 'Strikes' %}</th>
                         <th>&nbsp; {# Notes #}</th>
-                        {% if user.is_authenticated %}
-                        {% if user.is_superuser or user.is_staff %}
                         <th>&nbsp; {# Admin actions #}</th>
-                        {% endif %}
                         {% endif %}
                     </tr>
                 </thead>
@@ -122,6 +122,7 @@ template for members list.
                             {% if member.is_staff %}<img class="clan-staff" src="{% static 'ico/staff.png' %}" alt="{% trans 'Clan staff' %}" title="{% trans 'Clan staff' %}"> {% endif %}
                             {% if member.bnet_id == 3568824 %}<img class="clan-staff" src="{% static 'ico/author.png' %}" alt="{% trans 'Site author' %}" title="{% trans 'Site author' %}"> {% endif %}
                         </td>
+                        {% if is_authorized %}
                         <td>
                             {% if member.skype_id %}
                             <a data-toggle="tooltip" data-placement="top" data-skype="{{ member.skype_id }}">
@@ -130,6 +131,7 @@ template for members list.
                             </a>
                             {% endif %}
                         </td>
+                        {% endif %}
                         <td data-twitch="{{ member.twitch_username }}">{% if member.twitch_username %}
                             <a href="{{ member.twitch_url }}" target="_blank" title="{{ member.twitch_username }}">
                                 <img src="{% static 'ico/twitch.png' %}" alt="Twitch">
@@ -148,17 +150,15 @@ template for members list.
                             <td>{{ member.score }}</td>
                         {% endif %}
                         <td>{{ member.join_date|date:"SHORT_DATE_FORMAT" }}</td>
-                        <td class="practice-attendance{% if member.practice_register == 'E' %} explained{% elif member.practice_register == 'N' %} no{% endif %}">
-                            {{ member.get_practice_register_display }}
-                        </td>
-                        <td>{% show_strikes member %}</td>
-                        <td>
-                            {% if member.notes %}<a class="notes" data-toggle="popover" data-placement="left" data-title="{% trans 'Notes' %}" data-content="{{ member.bleached_notes|linebreaks }}"><img src="{% static 'ico/note.png' %}" alt="Notes"></a>{% endif %}
-                        </td>
-                        {% if user.is_authenticated %}
-                        {% if user.is_superuser or user.is_staff %}
-                        <td class="admin-view"><a href="{{ member.get_admin_url }}" target="_blank" title="{% trans 'View on admin' %}"><img src="{% static 'ico/edit.png' %}" alt="View on admin"></a></td>
-                        {% endif %}
+                        {% if is_authorized %}
+                            <td class="practice-attendance{% if member.practice_register == 'E' %} explained{% elif member.practice_register == 'N' %} no{% endif %}">
+                                {{ member.get_practice_register_display }}
+                            </td>
+                            <td>{% show_strikes member %}</td>
+                            <td>
+                                {% if member.notes %}<a class="notes" data-toggle="popover" data-placement="left" data-title="{% trans 'Notes' %}" data-content="{{ member.bleached_notes|linebreaks }}"><img src="{% static 'ico/note.png' %}" alt="Notes"></a>{% endif %}
+                            </td>
+                            <td class="admin-view"><a href="{{ member.get_admin_url }}" target="_blank" title="{% trans 'View on admin' %}"><img src="{% static 'ico/edit.png' %}" alt="View on admin"></a></td>
                         {% endif %}
                     </tr>
                 {% empty %}

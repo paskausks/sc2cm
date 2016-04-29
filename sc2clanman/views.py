@@ -27,6 +27,7 @@ class BaseView(TemplateView):
             model_name = self.current_model
 
         ctx['opts'] = Opts()
+        ctx['is_authorized'] = self.request.user.is_superuser or self.request.user.is_staff
 
         return ctx
 

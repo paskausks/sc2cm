@@ -65,6 +65,11 @@ Base template.
         <!--[if gte IE 9]><!-->
             <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
         <!--<![endif]-->
+        <script type="text/javascript">
+            // This variable is used to set sorting functions on the right columns of the table.
+            // Because the table has different columns visible, depending on, if
+            var userIsAdmin = {% if is_authorized %}true{% else %}false{% endif %};
+        </script>
         {% if debug %}
         {# grunt-contrib-watch livereload #}
             <!--suppress JSUnresolvedLibraryURL -->
