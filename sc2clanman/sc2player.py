@@ -26,6 +26,7 @@ class SC2PlayerException(Exception):
 class SC2Player(object):
     """Get SC2 player stats from battle.net API"""
 
+    BNET_PROFILE_URL = 'https://eu.api.battle.net/sc2/profile/{}/{}/{}/'
     BNET_LADDER_LIST_URL = 'https://eu.api.battle.net/sc2/profile/{}/{}/{}/ladders'
     BNET_LADDER_URL = 'https://eu.api.battle.net/sc2/ladder/{}'
     BNET_MATCH_HISTORY_URL = 'https://eu.api.battle.net/sc2/profile/{}/{}/{}/matches'
@@ -118,6 +119,34 @@ class SC2Player(object):
         if self.ladder_id == self.NO_LADDER_ID:
             # A ladder containing this player wasn't found so we presume they're unranked.
             self.unranked = True
+
+            # Let's just check if they're at least still in the clan then
+            profile_response = None
+            try:
+                profile_response = requests.get(
+                    self.BNET_PROFILE_URL.format(self.bnet_id, self.region, self.name),
+                    request_params, timeout=10
+                )
+            except requests.exceptions.Timeout:
+                raise SC2PlayerException(
+                    'Request timed out while trying to fetch profile for %s!' % self.name,
+                    type=SC2PlayerException.TIMEOUT
+                )
+            except requests.exceptions.ConnectionError:
+                raise SC2PlayerException(
+                    'Connection error while trying to fetch profile for %s!' % self.name,
+                    type=SC2PlayerException.CONN_ERR
+                )
+
+            if profile_response.status_code != 200:
+                raise SC2PlayerException(
+                    'Unsuccessful response while trying to fetch profile for %s!' % self.name,
+                    type=SC2PlayerException.STATUS_CODE
+                )
+
+            if profile_response:
+                self.tag = profile_response.json()['clanTag']
+
             return
 
         # We got most of what we need, now we unfortunately need to query the specific ladder the player is in
