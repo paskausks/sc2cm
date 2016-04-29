@@ -46,6 +46,80 @@ template for members list.
                   }
                 }
             </pre>
+            <hr>
+
+            <h1>GET /api/top/</h1>
+            <p>{% blocktrans %}Get the top 10 players by ladder points.{% endblocktrans %}</p>
+            <p>{% blocktrans %}Sample request{% endblocktrans %}</p>
+            <pre>curl http://host/api/top/</pre>
+            <p>{% trans "Response" %}</p>
+            <pre>
+                {
+                  "message": "Success",
+                  "players": [{
+                    "name": "Axel",
+                    "join_date": "30/11/2015",
+                    "ladder_name": "Arcturus Victor",
+                    "bnet_id": 3638925,
+                    "bnet_profile_url": "http://eu.battle.net/sc2/en/profile/3638925/1/Axel/",
+                    "twitch_username": "",
+                    "race": "Zerg",
+                    "score": 1119,
+                    "rank": 8,
+                    "region": 1,
+                    "ladder_id": 181420,
+                    "winrate": 51.16,
+                    "losses": 105,
+                    "last_game": "29/04/2016",
+                    "country": "",
+                    "total_games": 215,
+                    "twitch_url": "",
+                    "league": "Masters",
+                    "wins": 110
+                  }, {
+                    "name": "SkUll",
+                    "join_date": "13/12/2015",
+                    "ladder_name": "Valkyrie Tango",
+                    "bnet_id": 6764236,
+                    "bnet_profile_url": "http://eu.battle.net/sc2/en/profile/6764236/1/SkUll/",
+                    "twitch_username": "",
+                    "race": "Protoss",
+                    "score": 997,
+                    "rank": 10,
+                    "region": 1,
+                    "ladder_id": 181709,
+                    "winrate": 54.29,
+                    "losses": 112,
+                    "last_game": "28/04/2016",
+                    "country": "",
+                    "total_games": 245,
+                    "twitch_url": "",
+                    "league": "Masters",
+                    "wins": 133
+                  }, {
+                    "name": "Ogurec",
+                    "join_date": "30/11/2015",
+                    "ladder_name": "Horner Charlie",
+                    "bnet_id": 376079,
+                    "bnet_profile_url": "http://eu.battle.net/sc2/en/profile/376079/2/Ogurec/",
+                    "twitch_username": "",
+                    "race": "Protoss",
+                    "score": 991,
+                    "rank": 25,
+                    "region": 2,
+                    "ladder_id": 175929,
+                    "winrate": 54.51,
+                    "losses": 116,
+                    "last_game": "11/12/2015",
+                    "country": "Russia",
+                    "total_games": 255,
+                    "twitch_url": "",
+                    "league": "Masters",
+                    "wins": 139
+                  }
+
+                ...
+            </pre>
         </div>
     </div>
 </div>

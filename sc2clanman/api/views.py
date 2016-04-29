@@ -39,3 +39,20 @@ class PlayerView(View):
             return api_response({}, data_kw, _('Player not found'), status=404)
 
         return api_response(player, data_kw)
+
+
+class TopView(View):
+    """
+    A view which returns the top 10 players by ladderpoints.
+    """
+    def get(self, request, **kwargs):
+
+        kw = kwargs.get('keyword', '')
+        data_kw = 'players'
+
+        # Return the first search result when looking for this player
+        players = [
+            p.serialize() for p in models.ClanMember.clanmembers.order_by('-score')[:10]
+            ]
+
+        return api_response(players, data_kw)
