@@ -113,7 +113,7 @@ module.exports = function(grunt) {
             },
             target: {
                 files: {
-                    'static/css/main.min.css': ['sc2clanman/static/css/main.purified.css']
+                    'sc2clanman/static/css/main.min.css': ['sc2clanman/static/css/main.purified.css']
                 }
             }
         },
