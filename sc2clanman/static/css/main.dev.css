@@ -6381,4 +6381,10 @@ body {
   color: #f8f8f8;
   text-decoration: underline;
 }
+.footer {
+  display: block;
+}
+.footer p {
+  text-align: center;
+}
 /*# sourceMappingURL=sc2clanman/static/css/main.dev.map */

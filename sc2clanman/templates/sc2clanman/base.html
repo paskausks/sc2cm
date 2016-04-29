@@ -24,30 +24,30 @@ Base template.
         <![endif]-->
     </head>
     <body class="{% block bodyclass %}{% endblock bodyclass %}">
-        {% if user.is_authenticated %}
+    {% if user.is_authenticated %}
         {% if user.is_superuser or user.is_staff %}
-        <nav class="navbar navbar-inverse" id="admin-navbar">
-            <div class="container-fluid">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#admin-navbar" aria-expanded="false">
-                        <span class="sr-only">{% trans 'Toggle navigation' %}</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                  <a class="navbar-brand" href="/">{% trans 'Clan Management' %}</a>
+            <nav class="navbar navbar-inverse" id="admin-navbar">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#admin-navbar" aria-expanded="false">
+                            <span class="sr-only">{% trans 'Toggle navigation' %}</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="/">{% trans 'Clan Management' %}</a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="admin-navbar">
+                        <ul class="nav navbar-nav">
+                            <li class="{% active request.path '^/$' %}"><a href="/">{% trans 'Members' %}</a></li>
+                        </ul>
+                        <p class="navbar-text navbar-right">Hi, {{ user.username }}! Go to <a href="{% url opts|admin_urlname:'changelist' %}">admin</a></p>
+                    </div>
                 </div>
-                <div class="collapse navbar-collapse" id="admin-navbar">
-                    <ul class="nav navbar-nav">
-                        <li class="{% active request.path '^/$' %}"><a href="/">{% trans 'Members' %}</a></li>
-                    </ul>
-                    <p class="navbar-text navbar-right">Hi, {{ user.username }}! Go to <a href="{% url opts|admin_urlname:'changelist' %}">admin</a></p>
-                </div>
-            </div>
-        </nav>
+            </nav>
         {% endif %}
-        {% endif %}
+    {% endif %}
 {% comment %}
     <div class="row admin-row">
         <div class="col-xs-12">
@@ -55,6 +55,12 @@ Base template.
     </div>
     {% endcomment %}
     {% block content %}{% endblock content %}
+    <div class="footer">
+        <p>
+            Made by <a href="http://twitter.com/pundurs" target="_blank">pundurs</a>. Powered by <a href="http://battle.net/" target="_blank"><img src="{% static 'ico/bnet.png' %}" alt="Battle.net" title="Battle.net"></a>
+            <br><a href="https://github.com/pundurs/sc2cm" target="_blank">{% trans "Source" %}</a>
+        </p>
+    </div>
     {% comment %}
             If we are running on a modern browser, we load jQuery 2, which is faster.
             We use a conditional comment trick to load jQuery 2 anyway, even if the user isn't using IE at all
