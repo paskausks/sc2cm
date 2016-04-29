@@ -1,9 +1,13 @@
 #!/bin/env python3
 
-from django.conf.urls import url
-from . import views
+from django.conf.urls import url, include
+from . import views, api
 
 urlpatterns = [
     # Member list related
     url(r'^$', views.MemberView.as_view(), name='member_list'),
+    url(r'^api$', views.BaseView.as_view(template_name='sc2clanman/api.html'), name='api_docs'),
+
+    # API Namespace
+    url(r'^api/', include('sc2clanman.api.urls', namespace='api')),
 ]

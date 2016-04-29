@@ -2,6 +2,7 @@ import bleach
 from django.contrib.contenttypes.models import ContentType
 from django.core import urlresolvers
 from django.db import models
+from django.utils.formats import date_format
 from django.utils.translation import ugettext as _
 from django.utils import timezone
 from django_countries.fields import CountryField
@@ -133,6 +134,8 @@ class ClanMember(models.Model):
 
     @property
     def twitch_url(self):
+        if not self.twitch_username:
+            return ''
         return 'http://twitch.tv/{}/'.format(self.twitch_username)
 
     @property
@@ -150,6 +153,32 @@ class ClanMember(models.Model):
 
     def __str__(self):
         return self.name
+
+    def serialize(self):
+        """
+        Returns JSON serializable dict of instance
+        """
+        return dict(
+            name=self.name,
+            bnet_id=self.bnet_id,
+            region=self.region,
+            ladder_name=self.ladder_name,
+            ladder_id=self.ladder_id,
+            country=self.get_country_display(),
+            league=self.get_league_display(),
+            race=self.get_race_display(),
+            last_game=date_format(self.last_game, 'SHORT_DATE_FORMAT'),
+            wins=self.wins,
+            losses=self.losses,
+            score=self.score,
+            rank=self.rank,
+            join_date=date_format(self.join_date, 'SHORT_DATE_FORMAT'),
+            winrate=self.winrate,
+            total_games=self.total_games,
+            bnet_profile_url=self.bnet_profile_url,
+            twitch_username=self.twitch_username,
+            twitch_url=self.twitch_url
+        )
 
     class Meta:
         verbose_name = 'player'
