@@ -24,31 +24,29 @@ Base template.
         <![endif]-->
     </head>
     <body class="{% block bodyclass %}{% endblock bodyclass %}">
-    {% if user.is_authenticated %}
-        {% if user.is_superuser or user.is_staff %}
-            <nav class="navbar navbar-inverse navbar-fixed-top" id="admin-navbar">
-                <div class="container-fluid">
-                    <!-- Brand and toggle get grouped for better mobile display -->
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#admin-navbar" aria-expanded="false">
-                            <span class="sr-only">{% trans 'Toggle navigation' %}</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand" href="/">{% trans 'Clan Management' %}</a>
-                    </div>
-                    <div class="collapse navbar-collapse" id="admin-navbar">
-                        <ul class="nav navbar-nav">
-                            <li class="{% active request.path '^/$' %}"><a href="/">{% trans 'Members' %}</a></li>
-                            <li class="{% active request.path '^/cw/$' %}"><a href="{% url 'clan_wars' %}">{% trans 'Clan Wars' %}</a></li>
-                        </ul>
-                        <p class="navbar-text navbar-right">Hi, {{ user.username }}! Go to <a href="{% url opts|admin_urlname:'changelist' %}">admin</a></p>
-                    </div>
-                </div>
-            </nav>
-        {% endif %}
-    {% endif %}
+    <nav class="navbar navbar-inverse navbar-fixed-top" id="admin-navbar">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#admin-navbar" aria-expanded="false">
+                    <span class="sr-only">{% trans 'Toggle navigation' %}</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">{% trans 'Clan Management' %}</a>
+            </div>
+            <div class="collapse navbar-collapse" id="admin-navbar">
+                <ul class="nav navbar-nav">
+                    <li class="{% active request.path '^/$' %}"><a href="/">{% trans 'Members' %}</a></li>
+                    <li class="{% active request.path '^/cw/$' %}"><a href="{% url 'clan_wars' %}">{% trans 'Clan Wars' %}</a></li>
+                </ul>
+                {% if user.is_staff or user.is_superuser %}
+                    <p class="navbar-text navbar-right">Hi, {{ user.username }}! Go to <a href="{% url opts|admin_urlname:'changelist' %}">admin</a></p>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
 {% comment %}
     <div class="row admin-row">
         <div class="col-xs-12">
