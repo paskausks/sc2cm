@@ -6,6 +6,7 @@ from . import views, api
 urlpatterns = [
     # Member list related
     url(r'^$', views.MemberView.as_view(), name='member_list'),
+    url(r'^cw/$', views.ClanWarView.as_view(), name='clan_wars'),
     url(r'^api$', views.BaseView.as_view(template_name='sc2clanman/api.html'), name='api_docs'),
 
     # API Namespace

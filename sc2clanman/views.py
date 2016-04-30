@@ -106,3 +106,12 @@ class MemberView(ListView):
 
         ctx['version'] = apps.ClanManConfig.version_id
         return ctx
+
+
+class ClanWarView(BaseView):
+    template_name = 'sc2clanman/cw.html'
+
+    def get_context_data(self, **kwargs):
+        ctx = super(ClanWarView, self).get_context_data(**kwargs)
+        ctx['clanwars'] = models.ClanWar.objects.all()
+        return ctx

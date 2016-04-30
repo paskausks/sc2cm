@@ -1,0 +1,21 @@
+{% extends 'sc2clanman/base.html' %}
+{% load i18n staticfiles sc2cm countries %}
+{% comment %}
+
+template for members list.
+
+{% endcomment %}
+
+{% block bodyclass %}member-list{% endblock bodyclass %}
+
+{% block content %}
+{% if not clanwars %}
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 text-center">
+            <h1>{% blocktrans %}No clan wars found!{% endblocktrans %}</h1>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock content %}
