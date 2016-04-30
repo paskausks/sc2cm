@@ -108,6 +108,8 @@ class ClanMember(models.Model):
 
     @property
     def winrate(self):
+        if self.wins == 0 and self.losses == 0:
+            return 0
         return round(100 / (self.wins + self.losses) * self.wins, 2)
 
     @property
