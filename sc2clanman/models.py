@@ -207,3 +207,31 @@ class SyncLog(models.Model):
 
     def __str__(self):
         return self.get_action_display()
+
+
+class ClanWar(models.Model):
+    date = models.DateTimeField(_('Date and time'), blank=True)
+    opponent_name = models.CharField(_('Opponent'), max_length=50)
+    game_channel = models.CharField(_('In game channel'), blank=True, max_length=50)
+    players = models.ManyToManyField(
+        ClanMember, verbose_name=_('Players'), through='ClanWarPlayer'
+    )
+    notes = models.TextField(_('Notes'), blank=True)
+
+    class Meta:
+        verbose_name = 'clan war'
+        verbose_name_plural = 'clan wars'
+        ordering = ('-date',)
+
+    def __str__(self):
+        return '{} - {}'.format(date_format(self.date, 'SHORT_DATETIME_FORMAT'), self.opponent_name)
+
+
+class ClanWarPlayer(models.Model):
+    player = models.ForeignKey(ClanMember, verbose_name=_('Player'), limit_choices_to={'is_member': True})
+    clanwar = models.ForeignKey(ClanWar, verbose_name=_('Clan war'))
+
+    class Meta:
+        verbose_name = _('Clan war player')
+        verbose_name_plural = _('Clan war players')
+        unique_together = ('clanwar', 'player')
