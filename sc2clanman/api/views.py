@@ -34,7 +34,7 @@ class PlayerView(View):
 
         try:
             # Return the first search result when looking for this player
-            player = models.ClanMember.clanmembers.filter(name__icontains=kw)[0].serialize()
+            player = models.ClanMember.clanmembers.order_by('-name').filter(name__icontains=kw)[0].serialize()
         except IndexError:
             return api_response({}, data_kw, _('Player not found'), status=404)
 
