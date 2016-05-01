@@ -124,6 +124,21 @@
             background-color: @color-negative;
         }
     }
+
+    .rankedftw-links {
+        visibility: hidden;
+        & a {
+            color: #84b585;
+            margin-right: 5px;
+        }
+        & img {
+            vertical-align: baseline;
+        }
+    }
+
+    & tr:hover .rankedftw-links {
+        visibility: visible;
+    }
 }
 
 .loader {

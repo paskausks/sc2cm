@@ -6372,6 +6372,19 @@ body {
 #members-table .strike-list.maximum .strike-item {
   background-color: #d9534f;
 }
+#members-table .rankedftw-links {
+  visibility: hidden;
+}
+#members-table .rankedftw-links a {
+  color: #84b585;
+  margin-right: 5px;
+}
+#members-table .rankedftw-links img {
+  vertical-align: baseline;
+}
+#members-table tr:hover .rankedftw-links {
+  visibility: visible;
+}
 .loader {
   background-image: url('../ico/loading.gif');
   background-repeat: no-repeat;

@@ -121,6 +121,12 @@ template for members list.
                             <a href="{{ member.bnet_profile_url }}" target="_blank">{{ member.name }}</a>
                             {% if member.is_staff %}<i class="fa fa-bolt clan-staff" aria-hidden="true" title="{% trans 'Clan staff' %}"></i> {% endif %}
                             {% if member.bnet_id == 3568824 %}<i class="fa fa-wrench clan-staff" aria-hidden="true" title="{% trans 'Site author' %}"></i> {% endif %}
+                            {% if member.rankedftw_teamid %}
+                            <div class="pull-right rankedftw-links">
+                                <a href="{{ member.rankedftw_url }}" target="_blank" title="{% trans "RankedFTW ladder rank" %}"><img src="{% static 'ico/rankedftw-sm.png' %}"></a>
+                                <a href="{{ member.rankedftw_graph_url }}" target="_blank" title="{% trans "RankedFTW career graph" %}"><i class="fa fa-line-chart" aria-hidden="true"></i></a>
+                            </div>
+                            {% endif %}
                         </td>
                         {% if is_authorized %}
                         <td>
