@@ -234,6 +234,19 @@ class ClanWar(models.Model):
             "admin:%s_%s_change" % (content_type.app_label, content_type.model), args=(self.id,)
         )
 
+    def serialize(self):
+        """
+        Returns JSON serializable dict of instance
+        """
+        return dict(
+            id=self.id,
+            datetime=date_format(self.date, 'SHORT_DATETIME_FORMAT'),
+            opponent=self.opponent_name,
+            ingame_channel=self.game_channel,
+            players=[p.serialize() for p in self.players.all()],
+            notes=self.notes
+        )
+
 
 class ClanWarPlayer(models.Model):
     player = models.ForeignKey(ClanMember, verbose_name=_('Player'), limit_choices_to={'is_member': True})

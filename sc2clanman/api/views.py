@@ -1,6 +1,7 @@
 #!/bin/env python3
 
 from django.http import JsonResponse
+from django.utils import timezone
 from django.views.generic import View
 from django.utils.translation import ugettext as _
 from .. import models
@@ -56,3 +57,19 @@ class TopView(View):
             ]
 
         return api_response(players, data_kw)
+
+
+class ClanWarView(View):
+    """
+    A view which returns a list of upcoming clan wars.
+    """
+    def get(self, request, **kwargs):
+
+        data_kw = 'clanwars'
+
+        # Return the first search result when looking for this player
+        clan_wars = [
+            cw.serialize() for cw in models.ClanWar.objects.filter(date__gt=timezone.now())
+            ]
+
+        return api_response(clan_wars, data_kw)

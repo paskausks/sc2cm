@@ -120,6 +120,73 @@ template for members list.
 
                 ...
             </pre>
+            <hr>
+
+            <h1>GET /api/cw/</h1>
+            <p>{% blocktrans %}Get a list of upcoming clan wars.{% endblocktrans %}</p>
+            <p>{% blocktrans %}Sample request{% endblocktrans %}</p>
+            <pre>curl http://host/api/cw/</pre>
+            <p>{% trans "Response" %}</p>
+            <pre>
+            {
+              "message": "Success",
+              "clanwars": [{
+                "notes": "",
+                "ingame_channel": "ggvsecv",
+                "id": 2,
+                "opponent": "ECV",
+                "players": [],
+                "datetime": "02/05/2016 1:20 a.m."
+              }, {
+                "notes": "Here are\r\n\r\nsome coupole notesx.",
+                "ingame_channel": "GGvsisIMBA",
+                "id": 1,
+                "opponent": "IsIMBA",
+                "players": [{
+                  "total_games": 1,
+                  "twitch_url": "",
+                  "wins": 1,
+                  "bnet_profile_url": "http://eu.battle.net/sc2/en/profile/1834593/1/Altaeron/",
+                  "twitch_username": "",
+                  "league": "Diamond",
+                  "join_date": "30/11/2015",
+                  "score": 0,
+                  "ladder_id": 181361,
+                  "ladder_name": "Duran Romeo",
+                  "race": "Zerg",
+                  "country": "Latvia",
+                  "last_game": "29/04/2016",
+                  "losses": 0,
+                  "rank": 95,
+                  "name": "Altaeron",
+                  "bnet_id": 1834593,
+                  "winrate": 100.0,
+                  "region": 1
+                }, {
+                  "total_games": 175,
+                  "twitch_url": "",
+                  "wins": 90,
+                  "bnet_profile_url": "http://eu.battle.net/sc2/en/profile/307505/1/Andersone/",
+                  "twitch_username": "",
+                  "league": "Masters",
+                  "join_date": "13/12/2015",
+                  "score": 720,
+                  "ladder_id": 182461,
+                  "ladder_name": "Hydralisk Echo",
+                  "race": "Protoss",
+                  "country": "",
+                  "last_game": "29/04/2016",
+                  "losses": 85,
+                  "rank": 18,
+                  "name": "Andersone",
+                  "bnet_id": 307505,
+                  "winrate": 51.43,
+                  "region": 1
+                }],
+                "datetime": "02/05/2016 12:14 a.m."
+              }]
+            }
+            </pre>
         </div>
     </div>
 </div>
