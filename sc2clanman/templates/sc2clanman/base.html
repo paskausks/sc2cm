@@ -42,7 +42,11 @@ Base template.
                     <li class="{% active request.path '^/cw' %}"><a href="{% url 'clan_wars' %}">{% trans 'Clan Wars' %}</a></li>
                 </ul>
                 {% if user.is_staff or user.is_superuser %}
-                    <p class="navbar-text navbar-right">Hi, {{ user.username }}! Go to <a href="{% url opts|admin_urlname:'changelist' %}">admin</a></p>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><span class="navbar-text">Hi, {{ user.username }}!</span></li>
+                    <li><a href="{% url opts|admin_urlname:'changelist' %}"><i class="fa fa-cog" aria-hidden="true" title="{% trans "Admin" %}"></i></a></li>
+                    <li><a href="{% url 'admin:logout' %}"><i class="fa fa-sign-out" aria-hidden="true" title="{% trans "Log out" %}"></i></a></li>
+                </ul>
                 {% endif %}
             </div>
         </div>
