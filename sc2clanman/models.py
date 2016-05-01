@@ -210,7 +210,7 @@ class SyncLog(models.Model):
 
 
 class ClanWar(models.Model):
-    date = models.DateTimeField(_('Date and time'), blank=True)
+    date = models.DateTimeField(_('Date and time'))
     opponent_name = models.CharField(_('Opponent'), max_length=50)
     game_channel = models.CharField(_('In game channel'), blank=True, max_length=50)
     players = models.ManyToManyField(

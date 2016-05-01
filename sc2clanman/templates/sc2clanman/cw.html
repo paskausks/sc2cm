@@ -9,13 +9,28 @@ template for members list.
 {% block bodyclass %}member-list{% endblock bodyclass %}
 
 {% block content %}
-{% if not clanwars %}
 <div class="container">
     <div class="row">
+        {% if not clanwars %}
         <div class="col-xs-12 text-center">
             <h1>{% blocktrans %}No clan wars found!{% endblocktrans %}</h1>
         </div>
+        {% else %}
+        <table class="table">
+            <thead>
+                <th>{% trans 'Date' %}</th>
+                <th>{% trans 'Opponent' %}</th>
+            </thead>
+            <tbody>
+                {% for cw in clanwars %}
+                    <tr>
+                        <td>{{ cw.date|default:'-' }}</td>
+                        <td>{{ cw.opponent_name }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
     </div>
 </div>
-{% endif %}
 {% endblock content %}
