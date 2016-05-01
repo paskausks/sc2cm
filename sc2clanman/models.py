@@ -182,6 +182,7 @@ class ClanMember(models.Model):
             name=self.name,
             bnet_id=self.bnet_id,
             region=self.region,
+            ranked=not self.is_unranked,
             ladder_name=self.ladder_name,
             ladder_id=self.ladder_id,
             country=self.get_country_display(),
