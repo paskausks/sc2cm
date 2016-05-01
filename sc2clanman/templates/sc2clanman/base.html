@@ -56,7 +56,9 @@ Base template.
     {% block content %}{% endblock content %}
     <div class="footer">
         <p>
-            Made by <a href="http://twitter.com/pundurs" target="_blank">pundurs</a>. Powered by <a href="http://battle.net/" target="_blank"><img src="{% static 'ico/bnet.png' %}" alt="Battle.net" title="Battle.net"></a>
+            Made by <a href="http://twitter.com/pundurs" target="_blank">pundurs</a>.
+            Powered by <a href="http://battle.net/" target="_blank"><img src="{% static 'ico/bnet.png' %}" alt="Battle.net" title="Battle.net"></a>
+            and <a href="http://www.rankedftw.com/" target="_blank"><img src="{% static 'ico/rankedftw.png' %}" alt="RankedFTW" title="RankedFTW"></a>
             <br><a href="https://github.com/pundurs/sc2cm" target="_blank">{% trans "Source" %}</a> | <a href="{% url 'api_docs' %}">{% trans "API" %}</a>
         </p>
     </div>

@@ -6409,4 +6409,8 @@ body {
 .footer p {
   text-align: center;
 }
+.footer img {
+  margin-left: 5px;
+  margin-right: 5px;
+}
 /*# sourceMappingURL=sc2clanman/static/css/main.dev.map */
