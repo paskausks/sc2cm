@@ -3755,7 +3755,7 @@ body {
 #clanwar-table .admin-view {
   visibility: hidden;
 }
-#clanwar-table:hover .admin-view {
+#clanwar-table tr:hover .admin-view {
   visibility: visible;
 }
 .tooltip .tooltip-inner a {

@@ -27,8 +27,8 @@ template for the clan war list.
             <tbody>
                 {% for cw in clanwars %}
                     <tr>
-                        <td>{{ cw.date|date:'SHORT_DATETIME_FORMAT' }}</td>
-                        <td><a href="{% url 'clan_war_detail' cw.id %}">{{ cw.opponent_name }}</a></td>
+                        <td><a href="{% url 'clan_war_detail' cw.id %}">{{ cw.date|date:'SHORT_DATETIME_FORMAT' }}</a></td>
+                        <td>{{ cw.opponent_name }}</td>
                         <td>{{ cw.game_channel|default:'Undetermined' }}</td>
                         <td>{% if cw.notes %}<a class="notes" data-toggle="popover" data-placement="left" data-title="{% trans 'Details' %}" data-content="{{ cw.notes|linebreaks }}"><img src="{% static 'ico/note.png' %}" alt="Notes"></a>{% endif %}</td>
                         {% if is_authorized %}
