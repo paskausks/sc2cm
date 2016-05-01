@@ -148,7 +148,7 @@ class ClanMember(models.Model):
     def rankedftw_graph_url(self):
         if not self.rankedftw_teamid:
             return ''
-        return 'www.rankedftw.com/team/{}/'.format(
+        return 'http://www.rankedftw.com/team/{}/'.format(
             self.rankedftw_teamid
         )
 
