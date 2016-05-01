@@ -187,6 +187,66 @@ template for members list.
               }]
             }
             </pre>
+            <hr>
+
+            <h1>GET /api/cw/:id</h1>
+            <p>{% blocktrans %}Get a a single clan war object.{% endblocktrans %}</p>
+            <p>{% blocktrans %}Sample request{% endblocktrans %}</p>
+            <pre>curl http://host/api/cw/1</pre>
+            <p>{% trans "Response" %}</p>
+            <pre>
+                {
+                  "clanwar": {
+                    "opponent": "IsIMBA",
+                    "ingame_channel": "GGvsisIMBA",
+                    "notes": "Here are\r\n\r\nsome coupole notesx.",
+                    "id": 1,
+                    "datetime": "02/05/2016 12:14 a.m.",
+                    "players": [{
+                      "last_game": "29/04/2016",
+                      "ladder_name": "Duran Romeo",
+                      "total_games": 1,
+                      "race": "Zerg",
+                      "twitch_username": "",
+                      "losses": 0,
+                      "rank": 95,
+                      "twitch_url": "",
+                      "ladder_id": 181361,
+                      "name": "Altaeron",
+                      "bnet_profile_url": "http://eu.battle.net/sc2/en/profile/1834593/1/Altaeron/",
+                      "score": 0,
+                      "winrate": 100.0,
+                      "region": 1,
+                      "bnet_id": 1834593,
+                      "join_date": "30/11/2015",
+                      "country": "Latvia",
+                      "wins": 1,
+                      "league": "Diamond"
+                    }, {
+                      "last_game": "29/04/2016",
+                      "ladder_name": "Hydralisk Echo",
+                      "total_games": 175,
+                      "race": "Protoss",
+                      "twitch_username": "",
+                      "losses": 85,
+                      "rank": 18,
+                      "twitch_url": "",
+                      "ladder_id": 182461,
+                      "name": "Andersone",
+                      "bnet_profile_url": "http://eu.battle.net/sc2/en/profile/307505/1/Andersone/",
+                      "score": 720,
+                      "winrate": 51.43,
+                      "region": 1,
+                      "bnet_id": 307505,
+                      "join_date": "13/12/2015",
+                      "country": "",
+                      "wins": 90,
+                      "league": "Masters"
+                    }]
+                  },
+                  "message": "Success"
+                }
+            </pre>
         </div>
     </div>
 </div>

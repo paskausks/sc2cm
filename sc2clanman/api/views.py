@@ -73,3 +73,22 @@ class ClanWarView(View):
             ]
 
         return api_response(clan_wars, data_kw)
+
+
+class ClanWarDetailView(View):
+    """
+        A view which returns a single clan war.
+        """
+
+    def get(self, request, **kwargs):
+
+        kw = kwargs.get('cw_id')
+        data_kw = 'clanwar'
+
+        # Return the first search result when looking for this player
+        try:
+            cw = models.ClanWar.objects.get(id=kw)
+        except models.ClanWar.DoesNotExist:
+            return api_response({}, data_kw, _('Clan war not found'), status=404)
+
+        return api_response(cw.serialize(), data_kw)
