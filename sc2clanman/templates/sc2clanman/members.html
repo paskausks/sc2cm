@@ -119,8 +119,8 @@ template for members list.
                             <img title="Random" src="{% static 'ico/race-random.png' %}" alt="Random">
                             {% endif %}
                             <a href="{{ member.bnet_profile_url }}" target="_blank">{{ member.name }}</a>
-                            {% if member.is_staff %}<img class="clan-staff" src="{% static 'ico/staff.png' %}" alt="{% trans 'Clan staff' %}" title="{% trans 'Clan staff' %}"> {% endif %}
-                            {% if member.bnet_id == 3568824 %}<img class="clan-staff" src="{% static 'ico/author.png' %}" alt="{% trans 'Site author' %}" title="{% trans 'Site author' %}"> {% endif %}
+                            {% if member.is_staff %}<i class="fa fa-bolt clan-staff" aria-hidden="true" title="{% trans 'Clan staff' %}"></i> {% endif %}
+                            {% if member.bnet_id == 3568824 %}<i class="fa fa-wrench clan-staff" aria-hidden="true" title="{% trans 'Site author' %}"></i> {% endif %}
                         </td>
                         {% if is_authorized %}
                         <td>
@@ -156,9 +156,9 @@ template for members list.
                             </td>
                             <td>{% show_strikes member %}</td>
                             <td>
-                                {% if member.notes %}<a class="notes" data-toggle="popover" data-placement="left" data-title="{% trans 'Notes' %}" data-content="{{ member.bleached_notes|linebreaks }}"><img src="{% static 'ico/note.png' %}" alt="Notes"></a>{% endif %}
+                                {% if member.notes %}<a class="notes" data-toggle="popover" data-placement="left" data-title="{% trans 'Notes' %}" data-content="{{ member.bleached_notes|linebreaks }}"><i class="fa fa-sticky-note-o" aria-hidden="true"></i></a>{% endif %}
                             </td>
-                            <td class="admin-view"><a href="{{ member.get_admin_url }}" target="_blank" title="{% trans 'View on admin' %}"><img src="{% static 'ico/edit.png' %}" alt="View on admin"></a></td>
+                            <td class="admin-view"><a href="{{ member.get_admin_url }}" target="_blank" title="{% trans 'View on admin' %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
                         {% endif %}
                     </tr>
                 {% empty %}

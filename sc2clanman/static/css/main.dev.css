@@ -6344,14 +6344,14 @@ body {
   outline: 0;
 }
 #members-table .clan-staff,
-#members-table .admin-view img,
-#members-table .notes img {
-  opacity: .4;
+#members-table .admin-view,
+#members-table .notes {
+  opacity: .7;
 }
 #members-table .clan-staff:hover,
-#members-table .admin-view img:hover,
-#members-table .notes img:hover {
-  opacity: .7;
+#members-table .admin-view:hover,
+#members-table .notes:hover {
+  opacity: 1;
 }
 #members-table .skype-avatar {
   width: 96px;
@@ -6385,13 +6385,13 @@ body {
 #clanwar-table .notes:active {
   outline: 0;
 }
-#clanwar-table .notes img,
-#clanwar-table .admin-view img {
-  opacity: .4;
-}
-#clanwar-table .notes img:hover,
-#clanwar-table .admin-view img:hover {
+#clanwar-table .notes,
+#clanwar-table .admin-view {
   opacity: .7;
+}
+#clanwar-table .notes:hover,
+#clanwar-table .admin-view:hover {
+  opacity: 1;
 }
 #clanwar-table .admin-view {
   visibility: hidden;

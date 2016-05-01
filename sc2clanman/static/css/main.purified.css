@@ -1708,7 +1708,31 @@ a.badge:focus {
   font-weight: normal;
   font-style: normal;
 }
-/* makes the font 33% larger relative to the icon container *//* Deprecated as of 4.4.0 */:root .fa-rotate-90,
+.fa {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+/* makes the font 33% larger relative to the icon container */
+.fa-ul {
+  padding-left: 0;
+  margin-left: 2.14285714em;
+  list-style-type: none;
+}
+.fa-ul > li {
+  position: relative;
+}
+.fa-li {
+  position: absolute;
+  left: -2.14285714em;
+  width: 2.14285714em;
+  top: 0.14285714em;
+  text-align: center;
+}
+/* Deprecated as of 4.4.0 */:root .fa-rotate-90,
 :root .fa-rotate-180,
 :root .fa-rotate-270,
 :root .fa-flip-horizontal,
@@ -3703,14 +3727,14 @@ body {
   outline: 0;
 }
 #members-table .clan-staff,
-#members-table .admin-view img,
-#members-table .notes img {
-  opacity: .4;
+#members-table .admin-view,
+#members-table .notes {
+  opacity: .7;
 }
 #members-table .clan-staff:hover,
-#members-table .admin-view img:hover,
-#members-table .notes img:hover {
-  opacity: .7;
+#members-table .admin-view:hover,
+#members-table .notes:hover {
+  opacity: 1;
 }
 #members-table .skype-avatar {
   width: 96px;
@@ -3744,13 +3768,13 @@ body {
 #clanwar-table .notes:active {
   outline: 0;
 }
-#clanwar-table .notes img,
-#clanwar-table .admin-view img {
-  opacity: .4;
-}
-#clanwar-table .notes img:hover,
-#clanwar-table .admin-view img:hover {
+#clanwar-table .notes,
+#clanwar-table .admin-view {
   opacity: .7;
+}
+#clanwar-table .notes:hover,
+#clanwar-table .admin-view:hover {
+  opacity: 1;
 }
 #clanwar-table .admin-view {
   visibility: hidden;

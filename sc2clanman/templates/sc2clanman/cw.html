@@ -30,9 +30,9 @@ template for the clan war list.
                         <td><a href="{% url 'clan_war_detail' cw.id %}">{{ cw.date|date:'SHORT_DATETIME_FORMAT' }}</a></td>
                         <td>{{ cw.opponent_name }}</td>
                         <td>{{ cw.game_channel|default:'Undetermined' }}</td>
-                        <td>{% if cw.notes %}<a class="notes" data-toggle="popover" data-placement="left" data-title="{% trans 'Details' %}" data-content="{{ cw.notes|linebreaks }}"><img src="{% static 'ico/note.png' %}" alt="Notes"></a>{% endif %}</td>
+                        <td>{% if cw.notes %}<a class="notes" data-toggle="popover" data-placement="left" data-title="{% trans 'Details' %}" data-content="{{ cw.notes|linebreaks }}"><i class="fa fa-sticky-note-o" aria-hidden="true"></i></a>{% endif %}</td>
                         {% if is_authorized %}
-                            <td class="admin-view"><a href="{{ cw.get_admin_url }}" target="_blank" title="{% trans 'View on admin' %}"><img src="{% static 'ico/edit.png' %}" alt="View on admin"></a></td>
+                            <td class="admin-view"><a href="{{ cw.get_admin_url }}" target="_blank" title="{% trans 'View on admin' %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
                         {% endif %}
                     </tr>
                 {% endfor %}
