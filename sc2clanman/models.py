@@ -197,7 +197,9 @@ class ClanMember(models.Model):
             total_games=self.total_games,
             bnet_profile_url=self.bnet_profile_url,
             twitch_username=self.twitch_username,
-            twitch_url=self.twitch_url
+            twitch_url=self.twitch_url,
+            rankedftw_url=self.rankedftw_url,
+            rankedftw_graph_url=self.rankedftw_graph_url
         )
 
     class Meta:

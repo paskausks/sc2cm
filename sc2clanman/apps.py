@@ -6,4 +6,4 @@ from django.apps import AppConfig
 class ClanManConfig(AppConfig):
     name = 'sc2clanman'
     verbose_name = 'Clan Manager'
-    version_id = '0.1.5beta'
+    version_id = '0.1.6beta'
