@@ -262,6 +262,7 @@ class ClanWar(models.Model):
         return dict(
             id=self.id,
             datetime=date_format(self.date, 'SHORT_DATETIME_FORMAT'),
+            datetime_timestamp=self.date.timestamp(),
             opponent=self.opponent_name,
             ingame_channel=self.game_channel,
             players=[p.serialize() for p in self.players.all()],
