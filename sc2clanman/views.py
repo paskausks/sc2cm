@@ -1,6 +1,7 @@
 #!/bin/env python3
 
 from collections import Counter
+from django.conf import settings
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db import models as dm
 from django.shortcuts import get_object_or_404, render
@@ -114,4 +115,14 @@ class ClanWarView(BaseView):
     def get_context_data(self, **kwargs):
         ctx = super(ClanWarView, self).get_context_data(**kwargs)
         ctx['clanwars'] = models.ClanWar.objects.all()
+        return ctx
+
+
+class ClanWarDetailView(BaseView):
+    template_name = 'sc2clanman/cwdetail.html'
+
+    def get_context_data(self, **kwargs):
+        ctx = super(ClanWarDetailView, self).get_context_data(**kwargs)
+        ctx['cw'] = get_object_or_404(models.ClanWar, id=kwargs.get('cw_id'))
+        ctx['clan_tag'] = settings.SC2_CLANMANAGER_CLAN_TAG
         return ctx

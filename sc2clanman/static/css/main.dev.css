@@ -6377,6 +6377,28 @@ body {
   background-repeat: no-repeat;
   background-position: center;
 }
+#clanwar-table .notes {
+  cursor: pointer;
+}
+#clanwar-table .notes:hover,
+#clanwar-table .notes:focus,
+#clanwar-table .notes:active {
+  outline: 0;
+}
+#clanwar-table .notes img,
+#clanwar-table .admin-view img {
+  opacity: .4;
+}
+#clanwar-table .notes img:hover,
+#clanwar-table .admin-view img:hover {
+  opacity: .7;
+}
+#clanwar-table .admin-view {
+  visibility: hidden;
+}
+#clanwar-table:hover .admin-view {
+  visibility: visible;
+}
 .tooltip .tooltip-inner a {
   color: #f8f8f8;
   text-decoration: underline;

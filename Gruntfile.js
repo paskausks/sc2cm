@@ -87,6 +87,7 @@ module.exports = function(grunt) {
                 'node_modules/bootstrap/js/tooltip.js',
                 'node_modules/bootstrap/js/popover.js',
                 'src/js/members.js',
+                'src/js/clanwar.js',
                 ],
                 // And define our destination
                 dest: 'sc2clanman/static/js/main.dev.js',

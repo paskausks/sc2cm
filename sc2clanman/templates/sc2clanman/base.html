@@ -39,7 +39,7 @@ Base template.
             <div class="collapse navbar-collapse" id="admin-navbar">
                 <ul class="nav navbar-nav">
                     <li class="{% active request.path '^/$' %}"><a href="/">{% trans 'Members' %}</a></li>
-                    <li class="{% active request.path '^/cw/$' %}"><a href="{% url 'clan_wars' %}">{% trans 'Clan Wars' %}</a></li>
+                    <li class="{% active request.path '^/cw' %}"><a href="{% url 'clan_wars' %}">{% trans 'Clan Wars' %}</a></li>
                 </ul>
                 {% if user.is_staff or user.is_superuser %}
                     <p class="navbar-text navbar-right">Hi, {{ user.username }}! Go to <a href="{% url opts|admin_urlname:'changelist' %}">admin</a></p>

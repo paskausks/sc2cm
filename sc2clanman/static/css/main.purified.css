@@ -8,6 +8,7 @@ html {
 body {
   margin: 0;
 }
+details,
 footer,
 header,
 main,
@@ -490,6 +491,21 @@ th {
 }
 .table .table {
   background-color: #ffffff;
+}
+.table-bordered {
+  border: 1px solid #dddddd;
+}
+.table-bordered > thead > tr > th,
+.table-bordered > tbody > tr > th,
+.table-bordered > tfoot > tr > th,
+.table-bordered > thead > tr > td,
+.table-bordered > tbody > tr > td,
+.table-bordered > tfoot > tr > td {
+  border: 1px solid #dddddd;
+}
+.table-bordered > thead > tr > th,
+.table-bordered > thead > tr > td {
+  border-bottom-width: 2px;
 }
 .table-hover > tbody > tr:hover {
   background-color: #f5f5f5;
@@ -3720,6 +3736,28 @@ body {
   background-repeat: no-repeat;
   background-position: center;
 }
+#clanwar-table .notes {
+  cursor: pointer;
+}
+#clanwar-table .notes:hover,
+#clanwar-table .notes:focus,
+#clanwar-table .notes:active {
+  outline: 0;
+}
+#clanwar-table .notes img,
+#clanwar-table .admin-view img {
+  opacity: .4;
+}
+#clanwar-table .notes img:hover,
+#clanwar-table .admin-view img:hover {
+  opacity: .7;
+}
+#clanwar-table .admin-view {
+  visibility: hidden;
+}
+#clanwar-table:hover .admin-view {
+  visibility: visible;
+}
 .tooltip .tooltip-inner a {
   color: #f8f8f8;
   text-decoration: underline;
@@ -4040,6 +4078,10 @@ h3 {
   .table td,
   .table th {
  background-color: #fff !important;
+}
+  .table-bordered th,
+  .table-bordered td {
+ border: 1px solid #ddd !important;
 }
 }
 @-webkit-keyframes fa-spin {

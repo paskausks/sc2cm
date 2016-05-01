@@ -1,0 +1,80 @@
+{% extends 'sc2clanman/base.html' %}
+{% load i18n staticfiles sc2cm countries %}
+{% comment %}
+
+template for clan war details.
+
+{% endcomment %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1>
+                {% blocktrans with opponent=cw.opponent_name home_team=clan_tag %}{{ clan_tag }} vs {{ opponent }}{% endblocktrans %}
+                <small>{% trans "on" %} {{ cw.date }}</small>
+            </h1>
+            {% if cw.game_channel %}
+                <p><strong>{% blocktrans %}In game channel{% endblocktrans %}: </strong> {{ cw.game_channel }}</p>
+            {% endif %}
+            <p></p>
+            {{ cw.notes|linebreaks }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <h3>{% blocktrans %}Registered players{% endblocktrans %}</h3>
+            <table class="table table-padded table-bordered">
+                {% if not cw.players.count %}
+                <tr>
+                    <td>
+                        <p>{% blocktrans %}No players registered.{% endblocktrans %}</p>
+                    </td>
+                </tr>
+                {% else %}
+                    <tbody>
+                        {% for p in cw.players.all %}
+                            <tr>
+                                <td>
+                                    {# TODO: Refactor this to a template tag since this is used in the members table too. #}
+                                    {% if p.is_unranked %}
+                                        <img title="Unknown" src="{% static 'ico/race-unknown.png' %}" alt="Unknown">
+                                    {% elif p.race == 'TERRAN' %}
+                                        <img title="Terran" src="{% static 'ico/race-terran.png' %}" alt="Terran">
+                                    {% elif p.race == 'PROTOSS' %}
+                                        <img title="Protoss" src="{% static 'ico/race-protoss.png' %}" alt="Protoss">
+                                    {% elif p.race == 'ZERG' %}
+                                        <img title="Zerg" src="{% static 'ico/race-zerg.png' %}" alt="Zerg">
+                                    {% elif p.race == 'RANDOM' %}
+                                        <img title="Random" src="{% static 'ico/race-random.png' %}" alt="Random">
+                                    {% endif %}
+                                    {# TODO: Refactor this to a template tag since this is used in the members table too. #}
+                                    {% if p.is_unranked %}
+                                        <img title="Unknown" src="{% static 'ico/race-unknown.png' %}" alt="Unknown">
+                                    {% elif p.league == 'BRONZE' %}
+                                        <img title="Bronze" src="{% static 'ico/league-bronze.png' %}" alt="Bronze">
+                                    {% elif p.league == 'SILVER' %}
+                                        <img title="Silver" src="{% static 'ico/league-silver.png' %}" alt="Silver">
+                                    {% elif p.league == 'GOLD' %}
+                                        <img title="Gold" src="{% static 'ico/league-gold.png' %}" alt="Gold">
+                                    {% elif p.league == 'PLATINUM' %}
+                                        <img title="Platinum" src="{% static 'ico/league-platinum.png' %}" alt="Platinum">
+                                    {% elif p.league == 'DIAMOND' %}
+                                        <img title="Diamond" src="{% static 'ico/league-diamond.png' %}" alt="Diamond">
+                                    {% elif p.league == 'MASTER' %}
+                                        <img title="Master" src="{% static 'ico/league-master.png' %}" alt="Master">
+                                    {% elif p.league == 'GRANDMASTER' %}
+                                        <img title="Grandmaster" src="{% static 'ico/league-grandmaster.png' %}" alt="Grandmaster">
+                                    {% endif %}
+                                    {% if not p.is_unranked %}{{ member.rank }}{% endif %}
+                                    <strong>{{ p.name }}</strong>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                {% endif %}
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -226,6 +226,14 @@ class ClanWar(models.Model):
     def __str__(self):
         return '{} - {}'.format(date_format(self.date, 'SHORT_DATETIME_FORMAT'), self.opponent_name)
 
+    @property
+    def get_admin_url(self):
+        # Get admin URL for specific object, AdminSite independent.
+        content_type = ContentType.objects.get_for_model(self.__class__)
+        return urlresolvers.reverse(
+            "admin:%s_%s_change" % (content_type.app_label, content_type.model), args=(self.id,)
+        )
+
 
 class ClanWarPlayer(models.Model):
     player = models.ForeignKey(ClanMember, verbose_name=_('Player'), limit_choices_to={'is_member': True})

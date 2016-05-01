@@ -1,0 +1,27 @@
+@charset "utf-8";
+
+#clanwar-table {
+    .notes {
+        cursor: pointer;
+        &:hover,
+        &:focus,
+        &:active {
+            outline: 0;
+        }
+    }
+
+    // Opaque icons
+    .notes img,
+    .admin-view img {
+        opacity: .4;
+        &:hover {
+            opacity: .7;
+        }
+    }
+    .admin-view {
+        visibility: hidden;
+    }
+    &:hover .admin-view {
+        visibility: visible;
+    }
+}
