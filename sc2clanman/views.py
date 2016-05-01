@@ -112,6 +112,8 @@ class MemberView(ListView):
 class ClanWarView(BaseView):
     template_name = 'sc2clanman/cw.html'
 
+    current_model = 'clanwar'
+
     def get_context_data(self, **kwargs):
         ctx = super(ClanWarView, self).get_context_data(**kwargs)
         ctx['clanwars'] = models.ClanWar.objects.all()
@@ -120,6 +122,7 @@ class ClanWarView(BaseView):
 
 class ClanWarDetailView(BaseView):
     template_name = 'sc2clanman/cwdetail.html'
+    current_model = 'clanwar'
 
     def get_context_data(self, **kwargs):
         ctx = super(ClanWarDetailView, self).get_context_data(**kwargs)
