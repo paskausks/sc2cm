@@ -99,6 +99,8 @@ class ClanMember(models.Model):
       'Used for informative purposes only.'
     ))
 
+    rankedftw_teamid = models.IntegerField(_('RankedFTW team id'), default=0, editable=False)
+
     objects = models.Manager()
     clanmembers = ClanMemberManager()
 
@@ -132,6 +134,22 @@ class ClanMember(models.Model):
     def bnet_ladder_url(self):
         return 'http://eu.battle.net/sc2/en/profile/{}/{}/{}/ladder/{}#current-rank'.format(
             self.bnet_id, self.region, self.name, self.ladder_id
+        )
+
+    @property
+    def rankedftw_url(self):
+        if not self.rankedftw_teamid:
+            return ''
+        return 'http://www.rankedftw.com/ladder/lotv/1v1/ladder-rank/?team={}'.format(
+            self.rankedftw_teamid
+        )
+
+    @property
+    def rankedftw_graph_url(self):
+        if not self.rankedftw_teamid:
+            return ''
+        return 'www.rankedftw.com/team/{}/'.format(
+            self.rankedftw_teamid
         )
 
     @property

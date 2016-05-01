@@ -13,11 +13,6 @@ from django.utils.translation import ugettext as _
 from ...models import SyncLog, ClanMember
 from ... import sc2player
 
-CLAN_MEMBER_TABLE_CLASS = 'team-size-1'
-
-# The name is located at the fourth column of a row
-NAME_COL = 3
-
 # Use this regular expression to get the battle.net ID from the link wrapping the clan members's name.
 BNET_ID_REGEX = re.compile('http://eu\.battle\.net/sc2/en/profile/(\d+)/(\d+)/\w+/')
 
@@ -35,89 +30,10 @@ class Command(BaseCommand):
     time_started = None
     log = SyncLog(action=SyncLog.CLAN_MEMBER_SYNC)
 
-    @staticmethod
-    def _parse_member_detais(row):
-        """ Takes a row from the clan member table, which is an Element object, fetches the member details and returns
-        them as a dict.
-        :return: Dict of member details
-        """
-        m = dict()
-        cells = []
-
-        # Filter only <td> tags
-        for n in row.childNodes:
-            if n.nodeType == Node.ELEMENT_NODE:
-                cells.append(n)
-
-        # Get name element
-        name = cells[NAME_COL].getElementsByTagName('a')[0]
-        name.normalize()
-
-        # First element is clantag <span>, second is the actual name
-        m['name'] = name.childNodes[1].nodeValue.strip()
-
-        # Get battle.net ID from name Element via regex
-        bnet_id_match = re.search(BNET_ID_REGEX, name.getAttribute('href'))
-
-        if bnet_id_match is None:
-            m['bnet_id'] = NO_BNET_ID
-            m['region'] = 1
-        else:
-            m['bnet_id'] = bnet_id_match.groups()[0]
-            m['region'] = bnet_id_match.groups()[1]
-
-        return m
-
-    def _parse_rankedftw_response(self):
-        """ Takes rankedftw.com response and parses it to python objects
-        :return: List of dictionaries of clan members
-        """
-
-        clan_member_table = None
-
-        if self._rankedftw_response is None:
-            return
-
-        # HTML5Lib parses HTML text into a xml.etree.ElementTree instance
-        dom = html5lib.parse(
-            self._rankedftw_response.text,
-            treebuilder='dom'
-        )
-
-        # Get all tables
-        tables = dom.getElementsByTagName('table')
-
-        if len(tables) == 0:
-            return
-
-        # Look for the table containing clan members
-        for table in tables:
-            if table.getAttribute('class') == CLAN_MEMBER_TABLE_CLASS:
-                clan_member_table = table
-                break
-
-        if clan_member_table is None:
-            self.stderr.write(_('Clan member table wasn\'t found in response from nios'))
-            return
-
-        members = clan_member_table.getElementsByTagName('tbody')[0].getElementsByTagName('tr')
-
-        for member in members:
-            self.clan_members.append(self._parse_member_detais(member))
-
-        self.stdout.write('Finished processing HTML from rankedftw.com, beginning to sync with the database.')
-
-        if settings.DEBUG:
-            self.stdout.write(
-                (_('Time spent so far - %f seconds' % (
-                    (datetime.datetime.now() - self.time_started).total_seconds()
-                )))
-            )
-
     def handle(self, *args, **options):
         self.time_started = datetime.datetime.now()
         try:
-            rankedftw_url = ('http://www.rankedftw.com/clan/%s/ladder-rank/' % settings.SC2_CLANMANAGER_CLAN_TAG)
+            rankedftw_url = ('http://www.rankedftw.com/clan/%s/ladder-rank/?json' % settings.SC2_CLANMANAGER_CLAN_TAG)
         except AttributeError:
             self.stderr.write(_('SC2_CLANMANAGER_CLAN_TAG is undefined in settings. Exiting!'))
             sys.exit(1)
@@ -150,8 +66,9 @@ class Command(BaseCommand):
                 )))
             )
 
-        self.stdout.write(_('Clans received successfully! Scraping members!'))
-        self._parse_rankedftw_response()
+        self.stdout.write(_('Clan data received successfully! Getting members!'))
+
+        self.clan_members = self._rankedftw_response.json()
 
         if not self.clan_members:
             self.stdout.write(_('No members to process. Exiting!!'))
@@ -163,7 +80,15 @@ class Command(BaseCommand):
 
         for m in self.clan_members:
             # Check if member exists, if it doesn't, then fetch necessary data from battle net and create it
-            member_name = m['name']
+            member_name = m['m0_name']
+            bnet_id_match = re.search(BNET_ID_REGEX, m['m0_bnet_url'])
+
+            if bnet_id_match is None:
+                m['bnet_id'] = NO_BNET_ID
+                m['region'] = 1
+            else:
+                m['bnet_id'] = bnet_id_match.groups()[0]
+                m['region'] = bnet_id_match.groups()[1]
 
             try:
                 # We check by bnet ID, because while the name can change, the ID can not.
@@ -179,6 +104,10 @@ class Command(BaseCommand):
                     self.stdout.write(_('Marking %s as a member again!' % member_name))
                 else:
                     self.stdout.write(_('Skipping %s' % member_name))
+
+                # Update rankedFTW ID for existing members as well, in case they don't have it
+                if not member_obj.rankedftw_teamid:
+                    member_obj.rankedftw_teamid = m['team_id']
 
                 member_obj.save()
                 continue
@@ -207,7 +136,7 @@ class Command(BaseCommand):
                     bnet_id=new_member.bnet_id,
                     region=new_member.region,
                     ladder_name=new_member.ladder_name,
-                    ladder_id = new_member.ladder_id,
+                    ladder_id=new_member.ladder_id,
                     league=new_member.league,
                     race=new_member.race,
                     last_game=new_member.last_game.date(),
@@ -215,7 +144,11 @@ class Command(BaseCommand):
                     losses=new_member.losses,
                     score=new_member.points,
                     rank=new_member.rank,
+                    rankedftw_teamid=m['team_id']
                 ).save()
+
+        # Current player membership check was removed from here, since RankedFTW doesn't list unranked players leading
+        # the unranked players of a clan to be marked as non-member.
 
         self.stdout.write(
             _('Process finished successfully in %f seconds!' % (
