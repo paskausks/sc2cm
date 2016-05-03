@@ -1,5 +1,5 @@
 {% extends 'sc2clanman/base.html' %}
-{% load i18n staticfiles sc2cm countries %}
+{% load i18n staticfiles sc2cm countries l10n %}
 {% comment %}
 
 template for clan war details.
@@ -12,8 +12,10 @@ template for clan war details.
         <div class="col-xs-12">
             <h1>
                 {% blocktrans with opponent=cw.opponent_name home_team=clan_tag %}{{ clan_tag }} vs {{ opponent }}{% endblocktrans %}
-                <small>{% trans "on" %} {{ cw.date }}</small>
+                <small>{% trans "on" %} {{ cw.date }} UTC</small>
             </h1>
+            <p></p>
+            {% include 'sc2clanman/cwtimezones.html' %}
             {% if cw.game_channel %}
                 <p><strong>{% blocktrans %}In game channel{% endblocktrans %}: </strong> {{ cw.game_channel }}</p>
             {% endif %}

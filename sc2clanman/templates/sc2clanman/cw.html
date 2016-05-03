@@ -1,5 +1,5 @@
 {% extends 'sc2clanman/base.html' %}
-{% load i18n staticfiles sc2cm countries %}
+{% load i18n staticfiles sc2cm countries tz %}
 {% comment %}
 
 template for the clan war list.
@@ -14,6 +14,10 @@ template for the clan war list.
             <h1>{% blocktrans %}No clan wars found!{% endblocktrans %}</h1>
         </div>
         {% else %}
+        <p class="text-muted text-center">
+            {% blocktrans %}All dates and times are listed in UTC. Hover over the datetime to see conversions in common timezones.
+            Click on the datetimes to view the clan war details.{% endblocktrans %}
+        </p>
         <table class="table" id="clanwar-table">
             <thead>
                 <th>{% trans 'Date and time' %}</th>
@@ -27,7 +31,9 @@ template for the clan war list.
             <tbody>
                 {% for cw in clanwars %}
                     <tr>
-                        <td><a href="{% url 'clan_war_detail' cw.id %}">{{ cw.date|date:'SHORT_DATETIME_FORMAT' }}</a></td>
+                        <td><a href="{% url 'clan_war_detail' cw.id %}" data-toggle="tooltip" data-placement="left" title="
+                        {% include 'sc2clanman/cwtimezones.html' %}
+                        ">{{ cw.date|date:'SHORT_DATETIME_FORMAT' }}</a></td>
                         <td>{{ cw.opponent_name }}</td>
                         <td>{{ cw.game_channel|default:'Undetermined' }}</td>
                         <td>{% if cw.notes %}<a class="notes" data-toggle="popover" data-placement="left" data-title="{% trans 'Details' %}" data-content="{{ cw.notes|linebreaks }}"><i class="fa fa-sticky-note-o" aria-hidden="true"></i></a>{% endif %}</td>

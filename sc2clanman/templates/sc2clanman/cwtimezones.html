@@ -1,0 +1,7 @@
+{# Returns additional timezones for a ClanWar object, provided it's called 'cw' #}{% load tz %}
+<p>
+    <i>EST</i>: {{ cw.date|timezone:"EST" }}<br>
+    <i>GMT</i>: {{ cw.date|timezone:"GMT" }}<br>
+    <i>CET</i>: {{ cw.date|timezone:"CET" }}<br>
+    <i>EET</i>: {{ cw.date|timezone:"EET" }}
+</p>
