@@ -1,4 +1,7 @@
 # SC2CM
+
+**The project is very, very abandoned ☹️**
+
 A Django application for convienently managing a Starcraft 2 clan.
 
 ## Requirements
